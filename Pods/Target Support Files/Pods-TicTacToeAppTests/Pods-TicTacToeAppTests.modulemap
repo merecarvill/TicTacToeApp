@@ -1,0 +1,6 @@
+framework module Pods_TicTacToeAppTests {
+  umbrella header "Pods-TicTacToeAppTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
