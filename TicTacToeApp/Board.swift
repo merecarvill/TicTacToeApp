@@ -3,31 +3,25 @@ public class Board {
   public static let X = 1
   public static let O = 2
 
-  private var spaces: [Int?]
+  private let spaces: [Int: Int]
   private let size = 3
 
   public init() {
-    spaces = [Int?](count: 9, repeatedValue: Board.BLANK)
+    spaces = [:]
   }
 
-  public init(spaces: [Int?]) {
+  public init(spaces: [Int: Int]) {
     self.spaces = spaces
   }
 
-  public func markSpace(coordinates: [Int], mark: Int) -> Board {
-    spaces[coordinatesToIndex(coordinates)] = mark
+  public func markSpace(id: Int, mark: Int) -> Board {
+    var newSpaces = spaces
+    newSpaces[id] = mark
 
-    return Board(spaces: spaces)
+    return Board(spaces: newSpaces)
   }
 
-  public func readSpace(coordinates: [Int]) -> Int? {
-    return spaces[coordinatesToIndex(coordinates)]
-  }
-
-  private func coordinatesToIndex(coordinates: [Int]) -> Int {
-    let row = coordinates[0]
-    let col = coordinates[1]
-
-    return row * size + col
+  public func readSpace(id: Int) -> Int? {
+    return spaces[id]
   }
 }
