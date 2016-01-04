@@ -1,0 +1,9 @@
+language: objective-c
+
+osx_image: xcode7.2
+xcode_workspace: TicTacToeApp.xcworkspace
+xcode_scheme: TicTacToeApp
+xcode_sdk: iphonesimulator
+
+notifications:
+  email: false
