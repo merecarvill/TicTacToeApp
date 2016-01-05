@@ -1,7 +1,6 @@
 import UIKit
 
 public class ViewController: UIViewController {
-  var currentPlayerMark = "X"
 
   override public func viewDidLoad() {
     super.viewDidLoad()
@@ -13,24 +12,36 @@ public class ViewController: UIViewController {
     // Dispose of any resources that can be recreated.
   }
 
+  private var game = Game()
+
   @IBOutlet public var boardButtons: [UIButton]!
   @IBOutlet weak var resetButton: UIButton!
 
   @IBAction public func resetBoard() {
-    boardButtons.forEach{ button in
-      button.setTitle(nil, forState: UIControlState.Normal)
-      button.enabled = true
-    }
-    currentPlayerMark = "X"
+    clearBoard()
+    enableBoardButtons()
+    game = Game()
   }
 
   @IBAction public func makeMove(button: UIButton) {
-    button.setTitle(currentPlayerMark, forState: UIControlState.Normal)
-    currentPlayerMark = toggleMark(currentPlayerMark)
+    button.setTitle(getMarkFor(game.getCurrentPlayer()), forState: UIControlState.Normal)
     button.enabled = false
+    game.makeMove(button.tag)
   }
 
-  private func toggleMark(mark: String) -> String {
-    return mark == "X" ? "O" : "X"
+  private func clearBoard() {
+    boardButtons.forEach{ $0.setTitle(nil, forState: UIControlState.Normal) }
+  }
+
+  private func enableBoardButtons() {
+    boardButtons.forEach{ $0.enabled = true }
+  }
+
+  private func disableBoardButtons() {
+    boardButtons.forEach{ $0.enabled = false }
+  }
+
+  private func getMarkFor(player: Int) -> String {
+    return player == Board.X ? "X" : "O"
   }
 }

@@ -1,31 +1,31 @@
 public class Game {
 
   private var board: Board
-  private var currentPlayerMark: Int
+  private var currentPlayer: Int
 
   public init() {
     board = Board()
-    currentPlayerMark = Board.X
+    currentPlayer = Board.X
   }
 
   public func makeMove(boardSpace: Int) {
-    board = board.markSpace(boardSpace, mark: currentPlayerMark)
-    currentPlayerMark = togglePlayerMark()
+    board = board.markSpace(boardSpace, mark: currentPlayer)
+    currentPlayer = togglePlayer()
   }
 
-  public func getCurrentPlayerMark() -> Int {
-    return currentPlayerMark
+  public func getCurrentPlayer() -> Int {
+    return currentPlayer
   }
 
   public func playerWonLastTurn(mark: Int) -> Bool {
-    return board.hasWinningLine() && currentPlayerMark != mark
+    return board.hasWinningLine() && currentPlayer != mark
   }
 
   public func isADraw() -> Bool {
     return board.allSpacesMarked() && !board.hasWinningLine()
   }
 
-  private func togglePlayerMark() -> Int {
-    return currentPlayerMark == Board.X ? Board.O : Board.X
+  private func togglePlayer() -> Int {
+    return currentPlayer == Board.X ? Board.O : Board.X
   }
 }

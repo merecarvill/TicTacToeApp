@@ -14,17 +14,17 @@ class GameSpec: QuickSpec {
     describe("Game") {
 
       it ("starts the game with player X moving first") {
-        expect(Game().getCurrentPlayerMark()).to(equal(Board.X))
+        expect(Game().getCurrentPlayer()).to(equal(Board.X))
       }
 
       it("turns alternate between player X and player O") {
         let game = Game()
-        let initialPlayerMark = game.getCurrentPlayerMark()
+        let initialPlayer = game.getCurrentPlayer()
 
         game.makeMove(0)
 
-        expect(initialPlayerMark).to(equal(Board.X))
-        expect(game.getCurrentPlayerMark()).to(equal(Board.O))
+        expect(initialPlayer).to(equal(Board.X))
+        expect(game.getCurrentPlayer()).to(equal(Board.O))
       }
 
       it("has no winning players when just starting a game") {
