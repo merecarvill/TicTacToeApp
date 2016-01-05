@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		029EEC650970000884EB4FF6 /* Pods_TicTacToeAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED76CA4C5F7F69D5682B65E4 /* Pods_TicTacToeAppTests.framework */; };
-		0609696E1C3B116F004F22FE /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0609696D1C3B116F004F22FE /* Board.swift */; };
-		060969721C3B11B6004F22FE /* BoardSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060969711C3B11B6004F22FE /* BoardSpec.swift */; };
 		0647B5791C31E1D800BAC183 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0647B5781C31E1D800BAC183 /* AppDelegate.swift */; };
 		0647B57B1C31E1D800BAC183 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0647B57A1C31E1D800BAC183 /* ViewController.swift */; };
 		0647B57E1C31E1D800BAC183 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0647B57C1C31E1D800BAC183 /* Main.storyboard */; };
@@ -29,8 +27,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0609696D1C3B116F004F22FE /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
-		060969711C3B11B6004F22FE /* BoardSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardSpec.swift; sourceTree = "<group>"; };
 		0647B5751C31E1D700BAC183 /* TicTacToeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TicTacToeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0647B5781C31E1D800BAC183 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0647B57A1C31E1D800BAC183 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -94,7 +90,6 @@
 				0647B57F1C31E1D800BAC183 /* Assets.xcassets */,
 				0647B5811C31E1D800BAC183 /* LaunchScreen.storyboard */,
 				0647B5841C31E1D800BAC183 /* Info.plist */,
-				0609696D1C3B116F004F22FE /* Board.swift */,
 			);
 			path = TicTacToeApp;
 			sourceTree = "<group>";
@@ -104,7 +99,6 @@
 			children = (
 				0647B58D1C31E1D800BAC183 /* TicTacToeAppTests.swift */,
 				0647B58F1C31E1D800BAC183 /* Info.plist */,
-				060969711C3B11B6004F22FE /* BoardSpec.swift */,
 			);
 			path = TicTacToeAppTests;
 			sourceTree = "<group>";
@@ -280,7 +274,6 @@
 			files = (
 				0647B57B1C31E1D800BAC183 /* ViewController.swift in Sources */,
 				0647B5791C31E1D800BAC183 /* AppDelegate.swift in Sources */,
-				0609696E1C3B116F004F22FE /* Board.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,7 +282,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0647B58E1C31E1D800BAC183 /* TicTacToeAppTests.swift in Sources */,
-				060969721C3B11B6004F22FE /* BoardSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,7 +402,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEFINES_MODULE = YES;
 				INFOPLIST_FILE = TicTacToeApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = scarvill.TicTacToeApp;
@@ -422,7 +413,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEFINES_MODULE = YES;
 				INFOPLIST_FILE = TicTacToeApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = scarvill.TicTacToeApp;
