@@ -10,15 +10,15 @@ class BoardSpec: QuickSpec {
       it("is unmarked to start") {
         let board = Board()
 
-        expect(board.readSpace(0)).to(beNil())
+        expect(board.readSpace([0,0])).to(equal(Board.BLANK))
       }
 
       it("records a player's mark") {
-        var board = Board()
+        let board = Board()
 
-        board = board.markSpace(0, mark: Board.X)
+        board.markSpace([0, 0], mark: Board.X)
 
-        expect(board.readSpace(0)).to(equal(Board.X))
+        expect(board.readSpace([0, 0])).to(equal(Board.X))
       }
     }
   }
