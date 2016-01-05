@@ -1,4 +1,5 @@
 public class Board {
+  
   public static let X = 1
   public static let O = 2
 
