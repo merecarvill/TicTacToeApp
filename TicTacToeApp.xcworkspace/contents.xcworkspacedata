@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:GameSpec.swift">
+   </FileRef>
+   <FileRef
       location = "group:TicTacToeApp.xcodeproj">
    </FileRef>
    <FileRef
