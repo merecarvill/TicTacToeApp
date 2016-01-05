@@ -13,10 +13,6 @@ class GameSpec: QuickSpec {
 
     describe("Game") {
 
-      it("is not over to start") {
-        expect(Game().isOver()).to(beFalse())
-      }
-
       it ("starts the game with player X moving first") {
         expect(Game().getCurrentPlayerMark()).to(equal(Board.X))
       }
@@ -31,22 +27,30 @@ class GameSpec: QuickSpec {
         expect(game.getCurrentPlayerMark()).to(equal(Board.O))
       }
 
-      it("is not over when no moves have been made") {
-        expect(Game().isOver()).to(beFalse())
+      it("has no winning players when just starting a game") {
+        expect(Game().playerWonLastTurn(Board.X)).to(beFalse())
+        expect(Game().playerWonLastTurn(Board.O)).to(beFalse())
       }
 
-      it("is over when first player (X) has 3 in a row") {
+      it("reports if player X won") {
         let game = Game()
         makeSequenceOfMoves(game, moves: [0, 1, 3, 4, 6])
 
-        expect(game.isOver()).to(beTrue())
+        expect(game.playerWonLastTurn(Board.X)).to(beTrue())
       }
 
-      it("is over when all spaces have been marked") {
+      it("reports if player O won") {
+        let game = Game()
+        makeSequenceOfMoves(game, moves: [0, 1, 2, 4, 3, 7])
+
+        expect(game.playerWonLastTurn(Board.O)).to(beTrue())
+      }
+
+      it("reports if game is a draw") {
         let game = Game()
         makeSequenceOfMoves(game, moves: [0, 1, 3, 4, 7, 6, 2, 5, 8])
-        
-        expect(game.isOver()).to(beTrue())
+
+        expect(game.isADraw()).to(beTrue())
       }
     }
   }

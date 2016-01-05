@@ -17,8 +17,12 @@ public class Game {
     return currentPlayerMark
   }
 
-  public func isOver() -> Bool {
-    return board.hasWinningLine() || board.allSpacesMarked()
+  public func playerWonLastTurn(mark: Int) -> Bool {
+    return board.hasWinningLine() && currentPlayerMark != mark
+  }
+
+  public func isADraw() -> Bool {
+    return board.allSpacesMarked() && !board.hasWinningLine()
   }
 
   private func togglePlayerMark() -> Int {
