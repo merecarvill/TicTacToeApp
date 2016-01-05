@@ -24,8 +24,8 @@ public class Board {
     return markedSpaces[id]
   }
 
-  public func availableSpaces() -> [Int] {
-    return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  public func allSpacesMarked() -> Bool {
+    return (0..<(size * size)).reduce(true, combine: { $0 && markedSpaces[$1] != nil })
   }
 
   public func hasWinningLine() -> Bool {

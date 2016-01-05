@@ -1,30 +1,27 @@
 public class Game {
-  public enum Player {
-    case First
-    case Second
-  }
 
   private var board: Board
-  private var currentPlayer: Player
+  private var currentPlayerMark: Int
 
   public init() {
     board = Board()
-    currentPlayer = Player.First
+    currentPlayerMark = Board.X
   }
 
   public func makeMove(boardSpace: Int) {
-    currentPlayer = toggleCurrentPlayer()
+    board = board.markSpace(boardSpace, mark: currentPlayerMark)
+    currentPlayerMark = togglePlayerMark()
   }
 
-  public func getCurrentPlayer() -> Player {
-    return currentPlayer
+  public func getCurrentPlayerMark() -> Int {
+    return currentPlayerMark
   }
 
   public func isOver() -> Bool {
-    return false
+    return board.hasWinningLine() || board.allSpacesMarked()
   }
 
-  private func toggleCurrentPlayer() -> Player {
-    return currentPlayer == Player.First ? Player.Second : Player.First
+  private func togglePlayerMark() -> Int {
+    return currentPlayerMark == Board.X ? Board.O : Board.X
   }
 }

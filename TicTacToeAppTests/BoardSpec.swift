@@ -33,10 +33,20 @@ class BoardSpec: QuickSpec {
         expect(board.hasWinningLine()).to(beTrue())
       }
 
-      it("provides the ids of available spaces") {
-        let boardSpaces = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+      it("there are open spaces in a new game") {
+        expect(Board().allSpacesMarked()).to(beFalse())
+      }
 
-        expect(Board().availableSpaces()).to(equal(boardSpaces))
+      it("reports whether all spaces have been marked") {
+        let markedSpaces = [
+          0 : Board.X, 1 : Board.O, 2 : Board.X,
+          3 : Board.X, 4 : Board.O, 5 : Board.X,
+          6 : Board.O, 7 : Board.X, 8 : Board.O
+        ]
+        
+        let board = Board(markedSpaces: markedSpaces)
+
+        expect(board.allSpacesMarked()).to(beTrue())
       }
     }
   }
