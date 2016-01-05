@@ -116,16 +116,34 @@
                                     <action selector="makeMove:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gbn-n6-71V"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UaE-lz-cLj">
+                                <rect key="frame" x="20" y="194" width="166" height="30"/>
+                                <state key="normal" title="Reset">
+                                    <color key="titleShadowColor" red="0.76207386363636365" green="0.76207386363636365" blue="0.76207386363636365" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="resetBoard" destination="BYZ-38-t0r" eventType="touchUpInside" id="5BG-so-va8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="boardButton0" destination="TWT-Qv-457" id="To1-eH-dNF"/>
+                        <outlet property="resetButton" destination="UaE-lz-cLj" id="9e6-9O-gbt"/>
+                        <outletCollection property="boardButtons" destination="unL-sN-gSy" collectionClass="NSMutableArray" id="eql-7K-e61"/>
+                        <outletCollection property="boardButtons" destination="TWT-Qv-457" collectionClass="NSMutableArray" id="Z7C-uh-LZI"/>
+                        <outletCollection property="boardButtons" destination="YP6-Ec-wC5" collectionClass="NSMutableArray" id="Hsj-q8-uNA"/>
+                        <outletCollection property="boardButtons" destination="lxc-yZ-l7Z" collectionClass="NSMutableArray" id="o1h-Vh-q0e"/>
+                        <outletCollection property="boardButtons" destination="00j-wt-mfO" collectionClass="NSMutableArray" id="vNF-Ev-y3h"/>
+                        <outletCollection property="boardButtons" destination="Q2H-D3-wDe" collectionClass="NSMutableArray" id="7Ad-ZS-Pbf"/>
+                        <outletCollection property="boardButtons" destination="0u0-S7-NeQ" collectionClass="NSMutableArray" id="Ddp-ha-SL6"/>
+                        <outletCollection property="boardButtons" destination="Tiq-Ru-a7o" collectionClass="NSMutableArray" id="Bii-a9-x7v"/>
+                        <outletCollection property="boardButtons" destination="Oza-ie-rjI" collectionClass="NSMutableArray" id="m8o-mT-dlg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="197" y="504"/>
+            <point key="canvasLocation" x="235" y="497"/>
         </scene>
     </scenes>
 </document>
