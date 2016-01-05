@@ -45,7 +45,7 @@ class GameSpec: QuickSpec {
       it("is over when all spaces have been marked") {
         let game = Game()
         makeSequenceOfMoves(game, moves: [0, 1, 3, 4, 7, 6, 2, 5, 8])
-
+        
         expect(game.isOver()).to(beTrue())
       }
     }
