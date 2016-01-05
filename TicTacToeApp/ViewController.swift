@@ -8,18 +8,29 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+public class ViewController: UIViewController {
+  var mark = "X"
 
-  override func viewDidLoad() {
+  override public func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
   }
 
-  override func didReceiveMemoryWarning() {
+  override public func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }
 
+  @IBOutlet weak var boardButton0: UIButton!
 
+  @IBAction public func makeMove(button: UIButton) {
+    button.setTitle(mark, forState: UIControlState.Normal)
+    mark = toggleMark(mark)
+    button.enabled = false
+  }
+
+  private func toggleMark(mark: String) -> String {
+    return mark == "X" ? "O" : "X"
+  }
 }
 
