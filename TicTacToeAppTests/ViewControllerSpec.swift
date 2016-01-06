@@ -4,12 +4,38 @@ import TicTacToeApp
 
 class ViewControllerSpec: QuickSpec {
   override func spec() {
-
+    
+    var controller: ViewController!
+    
+    func tagButtonsInSequence(buttons: [UIButton]) {
+        var tag = 0
+        
+        for button in buttons {
+            button.tag = tag
+            tag += 1
+        }
+    }
+    
+    func makeMovesInSequence(controller: ViewController, buttons: [UIButton]) {
+        for button in buttons {
+            controller.makeMove(button)
+        }
+    }
+    
+    beforeEach {
+        controller = ViewController()
+        controller.boardButtons = [
+            UIButton(), UIButton(), UIButton(),
+            UIButton(), UIButton(), UIButton(),
+            UIButton(), UIButton(), UIButton()
+        ]
+        tagButtonsInSequence(controller.boardButtons)
+    }
+    
     describe("ViewController") {
 
       it("disables button after making a move") {
-        let controller = ViewController()
-        let button = UIButton()
+        let button = controller.boardButtons[0]
 
         controller.makeMove(button)
 
@@ -17,8 +43,7 @@ class ViewControllerSpec: QuickSpec {
       }
 
       it("changes button title after making a move") {
-        let controller = ViewController()
-        let button = UIButton()
+        let button = controller.boardButtons[0]
 
         controller.makeMove(button)
 
@@ -26,10 +51,9 @@ class ViewControllerSpec: QuickSpec {
       }
 
       it("changes button title to alternating player marks after each move") {
-        let controller = ViewController()
-        let firstMoveButton = UIButton()
-        let secondMoveButton = UIButton()
-        let thirdMoveButton = UIButton()
+        let firstMoveButton = controller.boardButtons[0]
+        let secondMoveButton = controller.boardButtons[1]
+        let thirdMoveButton = controller.boardButtons[2]
 
         controller.makeMove(firstMoveButton)
         controller.makeMove(secondMoveButton)
@@ -41,13 +65,6 @@ class ViewControllerSpec: QuickSpec {
       }
 
       it("removes board button titles when the game is reset") {
-        let controller = ViewController()
-        controller.boardButtons = [
-          UIButton(), UIButton(), UIButton(),
-          UIButton(), UIButton(), UIButton(),
-          UIButton(), UIButton(), UIButton()
-        ]
-
         controller.boardButtons[0].setTitle("foo", forState: UIControlState.Normal)
         controller.boardButtons[1].setTitle("bar", forState: UIControlState.Normal)
 
@@ -57,19 +74,11 @@ class ViewControllerSpec: QuickSpec {
         expect(controller.boardButtons[1].currentTitle).to(beNil())
       }
 
-      it("reenables pressed board buttons when the game is reset") {
-        let controller = ViewController()
-        let pressedButton1 = UIButton()
-        let pressedButton2 = UIButton()
-
+      it("re-enables pressed board buttons when the game is reset") {
+        let pressedButton1 = controller.boardButtons[0]
+        let pressedButton2 = controller.boardButtons[1]
         controller.makeMove(pressedButton1)
         controller.makeMove(pressedButton2)
-
-        controller.boardButtons = [
-          pressedButton1, pressedButton2, UIButton(),
-          UIButton(), UIButton(), UIButton(),
-          UIButton(), UIButton(), UIButton()
-        ]
 
         controller.resetBoard()
 
@@ -78,16 +87,8 @@ class ViewControllerSpec: QuickSpec {
       }
 
       it("the first player mark is X again after the game is reset") {
-        let controller = ViewController()
-        let button = UIButton()
-
-        controller.boardButtons = [
-          button, UIButton(), UIButton(),
-          UIButton(), UIButton(), UIButton(),
-          UIButton(), UIButton(), UIButton()
-        ]
+        let button = controller.boardButtons[0]
         controller.makeMove(button)
-
         let initialMark = button.currentTitle
 
         controller.resetBoard()
@@ -95,6 +96,18 @@ class ViewControllerSpec: QuickSpec {
 
         expect(initialMark).to(equal("X"))
         expect(button.currentTitle).to(equal(initialMark))
+      }
+      
+      it("disables all buttons when the game is over") {        
+        makeMovesInSequence(controller, buttons: [
+                controller.boardButtons[0],
+                controller.boardButtons[1],
+                controller.boardButtons[3],
+                controller.boardButtons[4],
+                controller.boardButtons[6]
+            ])
+    
+        expect(controller.boardButtons).to(allPass{ $0!.enabled == false })
       }
     }
   }

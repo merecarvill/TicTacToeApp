@@ -83,6 +83,17 @@
                                     <action selector="makeMove:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vLd-US-SFW"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" tag="7" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tiq-Ru-a7o" userLabel="Board Button 7">
+                                <rect key="frame" x="78" y="136" width="50" height="50"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="makeMove:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LQT-6b-eQo"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" tag="8" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oza-ie-rjI" userLabel="Board Button 8">
                                 <rect key="frame" x="136" y="136" width="50" height="50"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -94,17 +105,6 @@
                                     <action selector="makeMove:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8S3-Gw-vUL"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TWT-Qv-457" userLabel="Board Button 0">
-                                <rect key="frame" x="20" y="20" width="50" height="50"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="makeMove:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gbn-n6-71V"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UaE-lz-cLj">
                                 <rect key="frame" x="20" y="194" width="166" height="30"/>
                                 <state key="normal" title="Reset">
@@ -114,15 +114,15 @@
                                     <action selector="resetBoard" destination="BYZ-38-t0r" eventType="touchUpInside" id="5BG-so-va8"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="7" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tiq-Ru-a7o" userLabel="Board Button 7">
-                                <rect key="frame" x="78" y="136" width="50" height="50"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TWT-Qv-457" userLabel="Board Button 0">
+                                <rect key="frame" x="20" y="20" width="50" height="50"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="makeMove:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LQT-6b-eQo"/>
+                                    <action selector="makeMove:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gbn-n6-71V"/>
                                 </connections>
                             </button>
                         </subviews>

@@ -27,6 +27,10 @@ public class ViewController: UIViewController {
     button.setTitle(getMarkFor(game.getCurrentPlayer()), forState: UIControlState.Normal)
     button.enabled = false
     game.makeMove(button.tag)
+    
+    if(game.playerWonLastTurn(Board.X) || game.playerWonLastTurn(Board.O)) {
+        disableBoardButtons()
+    }
   }
 
   private func clearBoard() {
