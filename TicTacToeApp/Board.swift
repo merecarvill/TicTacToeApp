@@ -1,27 +1,25 @@
+
 public class Board {
   
-  public static let X = 1
-  public static let O = 2
-
-  private let markedSpaces: [Int: Int]
+  private let markedSpaces: [Int: PlayerMark]
   private let size = 3
 
   public init() {
     markedSpaces = [:]
   }
 
-  public init(markedSpaces: [Int: Int]) {
+  public init(markedSpaces: [Int : PlayerMark]) {
     self.markedSpaces = markedSpaces
   }
 
-  public func markSpace(id: Int, mark: Int) -> Board {
+  public func markSpace(id: Int, mark: PlayerMark) -> Board {
     var newSpaces = markedSpaces
     newSpaces[id] = mark
 
     return Board(markedSpaces: newSpaces)
   }
 
-  public func readSpace(id: Int) -> Int? {
+  public func readSpace(id: Int) -> PlayerMark? {
     return markedSpaces[id]
   }
 

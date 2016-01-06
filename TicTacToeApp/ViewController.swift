@@ -1,8 +1,10 @@
+
 import UIKit
 
 public class ViewController: UIViewController {
 
   private var game = Game()
+  private let gamePrompt = GamePrompt()
 
   @IBOutlet public weak var infoLabel: UILabel!
   @IBOutlet public var boardButtons: [UIButton]!
@@ -10,7 +12,7 @@ public class ViewController: UIViewController {
 
   override public func viewDidLoad() {
     super.viewDidLoad()
-    informPlayerMove(game.getCurrentPlayer())
+    updateGameInformationDisplay()
   }
 
   override public func didReceiveMemoryWarning() {
@@ -22,19 +24,26 @@ public class ViewController: UIViewController {
     clearBoard()
     enableBoardButtons()
     game = Game()
-    informPlayerMove(game.getCurrentPlayer())
+    updateGameInformationDisplay()
   }
 
   @IBAction public func makeMove(button: UIButton) {
-    let playerThatMoved = game.getCurrentPlayer()
-    button.setTitle(getMarkFor(game.getCurrentPlayer()), forState: UIControlState.Normal)
-    button.enabled = false
+    updateGameBoardButtonForPlayerMove(button, playerMark: game.getCurrentPlayer())
     game.makeMove(button.tag)
-    updatePlayerInformation(playerThatMoved, gameState: game)
-    
-    if game.playerWonLastTurn(playerThatMoved) {
+    updateGameInformationDisplay()
+
+    if game.playerWonLastTurn(game.getInactivePlayer()) {
       disableBoardButtons()
     }
+  }
+
+  private func updateGameInformationDisplay() {
+    infoLabel.text = gamePrompt.promptFor(game)
+  }
+
+  private func updateGameBoardButtonForPlayerMove(button: UIButton, playerMark: PlayerMark) {
+    button.setTitle(getButtonTextFor(playerMark), forState: UIControlState.Normal)
+    button.enabled = false
   }
 
   private func clearBoard() {
@@ -49,29 +58,7 @@ public class ViewController: UIViewController {
     boardButtons.forEach{ $0.enabled = false }
   }
 
-  private func getMarkFor(player: Int) -> String {
-    return player == Board.X ? "X" : "O"
-  }
-
-  private func updatePlayerInformation(playerThatMoved: Int, gameState: Game) {
-    if game.playerWonLastTurn(playerThatMoved) {
-      informPlayerWon(playerThatMoved)
-    } else if game.isADraw() {
-      informGameDraw()
-    } else {
-      informPlayerMove(game.getCurrentPlayer())
-    }
-  }
-
-  private func informPlayerMove(player: Int) {
-    infoLabel.text = "It's player " + getMarkFor(player) + "'s turn:"
-  }
-
-  private func informPlayerWon(player: Int) {
-    infoLabel.text = "Player " + getMarkFor(player) + " won!"
-  }
-
-  private func informGameDraw() {
-    infoLabel.text = "Players tied in a draw."
+  private func getButtonTextFor(playerMark: PlayerMark) -> String {
+    return playerMark == PlayerMark.X ? "X" : "O"
   }
 }

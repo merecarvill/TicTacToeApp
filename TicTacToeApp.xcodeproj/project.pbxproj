@@ -17,6 +17,9 @@
 		0647B5831C31E1D800BAC183 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0647B5811C31E1D800BAC183 /* LaunchScreen.storyboard */; };
 		0684401F1C3C5FF9009CCFA4 /* BoardSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0684401E1C3C5FF9009CCFA4 /* BoardSpec.swift */; };
 		068440211C3C6A10009CCFA4 /* GameSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068440201C3C6A10009CCFA4 /* GameSpec.swift */; };
+		06DB7E841C3DB5EC0084C1D9 /* GamePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DB7E831C3DB5EC0084C1D9 /* GamePrompt.swift */; };
+		06DB7E861C3DB5FB0084C1D9 /* GamePromptSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DB7E851C3DB5FB0084C1D9 /* GamePromptSpec.swift */; };
+		06DB7E881C3DBAF80084C1D9 /* PlayerMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DB7E871C3DBAF80084C1D9 /* PlayerMark.swift */; };
 		06E34AEA1C3C299C00CD529B /* ViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E34AE91C3C299C00CD529B /* ViewControllerSpec.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +54,9 @@
 		0647B58F1C31E1D800BAC183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0684401E1C3C5FF9009CCFA4 /* BoardSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardSpec.swift; sourceTree = "<group>"; };
 		068440201C3C6A10009CCFA4 /* GameSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSpec.swift; sourceTree = "<group>"; };
+		06DB7E831C3DB5EC0084C1D9 /* GamePrompt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePrompt.swift; sourceTree = "<group>"; };
+		06DB7E851C3DB5FB0084C1D9 /* GamePromptSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePromptSpec.swift; sourceTree = "<group>"; };
+		06DB7E871C3DBAF80084C1D9 /* PlayerMark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerMark.swift; sourceTree = "<group>"; };
 		06E34ADF1C3C1E2C00CD529B /* TicTacToeAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TicTacToeAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		06E34AE91C3C299C00CD529B /* ViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerSpec.swift; sourceTree = "<group>"; };
 		2AECFB298BA2C6F0776B31E5 /* Pods-TicTacToeAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TicTacToeAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TicTacToeAppTests/Pods-TicTacToeAppTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -116,6 +122,8 @@
 				0647B5841C31E1D800BAC183 /* Info.plist */,
 				0609696D1C3B116F004F22FE /* Board.swift */,
 				060969731C3B2872004F22FE /* Game.swift */,
+				06DB7E831C3DB5EC0084C1D9 /* GamePrompt.swift */,
+				06DB7E871C3DBAF80084C1D9 /* PlayerMark.swift */,
 			);
 			path = TicTacToeApp;
 			sourceTree = "<group>";
@@ -127,6 +135,7 @@
 				06E34AE91C3C299C00CD529B /* ViewControllerSpec.swift */,
 				0684401E1C3C5FF9009CCFA4 /* BoardSpec.swift */,
 				068440201C3C6A10009CCFA4 /* GameSpec.swift */,
+				06DB7E851C3DB5FB0084C1D9 /* GamePromptSpec.swift */,
 			);
 			path = TicTacToeAppTests;
 			sourceTree = "<group>";
@@ -330,8 +339,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06DB7E841C3DB5EC0084C1D9 /* GamePrompt.swift in Sources */,
 				0647B57B1C31E1D800BAC183 /* ViewController.swift in Sources */,
 				0647B5791C31E1D800BAC183 /* AppDelegate.swift in Sources */,
+				06DB7E881C3DBAF80084C1D9 /* PlayerMark.swift in Sources */,
 				0609696E1C3B116F004F22FE /* Board.swift in Sources */,
 				060969741C3B2872004F22FE /* Game.swift in Sources */,
 			);
@@ -343,6 +354,7 @@
 			files = (
 				068440211C3C6A10009CCFA4 /* GameSpec.swift in Sources */,
 				0684401F1C3C5FF9009CCFA4 /* BoardSpec.swift in Sources */,
+				06DB7E861C3DB5FB0084C1D9 /* GamePromptSpec.swift in Sources */,
 				06E34AEA1C3C299C00CD529B /* ViewControllerSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

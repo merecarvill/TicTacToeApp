@@ -1,3 +1,4 @@
+
 import Quick
 import Nimble
 import TicTacToeApp
@@ -16,9 +17,9 @@ class BoardSpec: QuickSpec {
       it("records a player's mark") {
         var board = Board()
 
-        board = board.markSpace(0, mark: Board.X)
+        board = board.markSpace(0, mark: PlayerMark.X)
 
-        expect(board.readSpace(0)).to(equal(Board.X))
+        expect(board.readSpace(0)).to(equal(PlayerMark.X))
       }
 
       it("does not have a winning line to start") {
@@ -28,7 +29,7 @@ class BoardSpec: QuickSpec {
       }
 
       it("has a winning line when a line is all the same player's mark") {
-        let board = Board(markedSpaces: [0 : Board.X, 1 : Board.X, 2 : Board.X])
+        let board = Board(markedSpaces: [0 : PlayerMark.X, 1 : PlayerMark.X, 2 : PlayerMark.X])
 
         expect(board.hasWinningLine()).to(beTrue())
       }
@@ -39,9 +40,9 @@ class BoardSpec: QuickSpec {
 
       it("reports whether all spaces have been marked") {
         let markedSpaces = [
-          0 : Board.X, 1 : Board.O, 2 : Board.X,
-          3 : Board.X, 4 : Board.O, 5 : Board.X,
-          6 : Board.O, 7 : Board.X, 8 : Board.O
+          0 : PlayerMark.X, 1 : PlayerMark.O, 2 : PlayerMark.X,
+          3 : PlayerMark.X, 4 : PlayerMark.O, 5 : PlayerMark.X,
+          6 : PlayerMark.O, 7 : PlayerMark.X, 8 : PlayerMark.O
         ]
         
         let board = Board(markedSpaces: markedSpaces)
