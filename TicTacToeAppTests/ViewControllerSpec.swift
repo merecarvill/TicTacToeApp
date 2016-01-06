@@ -3,35 +3,44 @@ import Nimble
 import TicTacToeApp
 
 class ViewControllerSpec: QuickSpec {
+
+  override func setUp() {
+    continueAfterFailure = false
+  }
+
   override func spec() {
     
     var controller: ViewController!
+    var infoLabel: UILabel!
     
     func tagButtonsInSequence(buttons: [UIButton]) {
-        var tag = 0
+      var tag = 0
         
-        for button in buttons {
-            button.tag = tag
-            tag += 1
-        }
+      for button in buttons {
+          button.tag = tag
+          tag += 1
+      }
     }
     
-    func makeMovesInSequence(controller: ViewController, buttons: [UIButton]) {
-        for button in buttons {
-            controller.makeMove(button)
-        }
+    func makeMovesInSequence(controller: ViewController, buttonSequence: [Int]) {
+      for buttonIndex in buttonSequence {
+          controller.makeMove(controller.boardButtons[buttonIndex])
+      }
     }
-    
+
     beforeEach {
-        controller = ViewController()
-        controller.boardButtons = [
-            UIButton(), UIButton(), UIButton(),
-            UIButton(), UIButton(), UIButton(),
-            UIButton(), UIButton(), UIButton()
-        ]
-        tagButtonsInSequence(controller.boardButtons)
+      controller = ViewController()
+      infoLabel = UILabel()
+      controller.infoLabel = infoLabel
+      controller.boardButtons = [
+          UIButton(), UIButton(), UIButton(),
+          UIButton(), UIButton(), UIButton(),
+          UIButton(), UIButton(), UIButton()
+      ]
+      tagButtonsInSequence(controller.boardButtons)
+      controller.viewDidLoad()
     }
-    
+
     describe("ViewController") {
 
       it("disables button after making a move") {
@@ -99,15 +108,46 @@ class ViewControllerSpec: QuickSpec {
       }
       
       it("disables all buttons when the game is over") {        
-        makeMovesInSequence(controller, buttons: [
-                controller.boardButtons[0],
-                controller.boardButtons[1],
-                controller.boardButtons[3],
-                controller.boardButtons[4],
-                controller.boardButtons[6]
-            ])
+        makeMovesInSequence(controller, buttonSequence: [0, 1, 3, 4, 6])
     
         expect(controller.boardButtons).to(allPass{ $0!.enabled == false })
+      }
+
+      it("informs player X that it's their turn when the game starts") {
+        expect(controller.infoLabel.text).to(equal("It's player X's turn:"))
+      }
+
+      it("informs player O that it's their turn after player X makes their move") {
+        controller.makeMove(controller.boardButtons[0])
+
+        expect(controller.infoLabel.text).to(equal("It's player O's turn:"))
+      }
+
+      it("informs player X that it's their turn after game restart") {
+        makeMovesInSequence(controller, buttonSequence: [0, 1, 3, 4, 6])
+
+        controller.resetBoard()
+
+        expect(controller.infoLabel.text).to(equal("It's player X's turn:"))
+      }
+
+      it("informs winning player X that they won") {
+        makeMovesInSequence(controller, buttonSequence: [0, 1, 3, 4, 6])
+
+        expect(controller.infoLabel.text).to(equal("Player X won!"))
+      }
+
+      it("informs winning player O that they won") {
+        makeMovesInSequence(controller, buttonSequence: [2, 0, 1, 3, 4, 6])
+
+
+        expect(controller.infoLabel.text).to(equal("Player O won!"))
+      }
+
+      it("informs players of a draw") {
+        makeMovesInSequence(controller, buttonSequence: [0, 1, 3, 4, 7, 6, 2, 5, 8])
+
+        expect(controller.infoLabel.text).to(equal("Players tied in a draw."))
       }
     }
   }
