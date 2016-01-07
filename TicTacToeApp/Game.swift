@@ -30,6 +30,10 @@ public class Game {
     return board.allSpacesMarked() && !board.hasWinningLine()
   }
 
+  public func getBoardMarks() -> [PlayerMark?] {
+    return (0..<board.numberOfSpaces()).map{ board.readSpace($0) }
+  }
+
   private func otherPlayer() -> PlayerMark {
     return currentPlayer == PlayerMark.X ? PlayerMark.O : PlayerMark.X
   }

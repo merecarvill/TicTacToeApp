@@ -1,4 +1,4 @@
 
 public enum PlayerMark {
-  case X, O
+  case X, O, NONE
 }

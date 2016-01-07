@@ -11,7 +11,7 @@ class BoardSpec: QuickSpec {
       it("is unmarked to start") {
         let board = Board()
 
-        expect(board.readSpace(0)).to(beNil())
+        expect(board.readSpace(0)).to(equal(PlayerMark.NONE))
       }
 
       it("records a player's mark") {
@@ -36,6 +36,10 @@ class BoardSpec: QuickSpec {
 
       it("there are open spaces in a new game") {
         expect(Board().allSpacesMarked()).to(beFalse())
+      }
+
+      it("can tell you the number of total spaces") {
+        expect(Board().numberOfSpaces()).to(equal(9))
       }
 
       it("reports whether all spaces have been marked") {
