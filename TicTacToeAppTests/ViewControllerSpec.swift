@@ -13,6 +13,7 @@ class ViewControllerSpec: QuickSpec {
     
     var controller: ViewController!
     var infoLabel: UILabel!
+    var resetButton: UIButton!
     
     func tagButtonsInSequence(buttons: [UIButton]) {
       var tag = 0
@@ -32,12 +33,14 @@ class ViewControllerSpec: QuickSpec {
     beforeEach {
       controller = ViewController()
       infoLabel = UILabel()
+      resetButton = UIButton()
       controller.infoLabel = infoLabel
       controller.boardButtons = [
           UIButton(), UIButton(), UIButton(),
           UIButton(), UIButton(), UIButton(),
           UIButton(), UIButton(), UIButton()
       ]
+      controller.resetButton = resetButton
       tagButtonsInSequence(controller.boardButtons)
       controller.viewDidLoad()
     }
@@ -74,11 +77,40 @@ class ViewControllerSpec: QuickSpec {
         expect(thirdMoveButton.currentTitle).to(equal("X"))
       }
 
+      it("presents user with confirmation when attempting to reset game") {
+        let confirmationDialogue =
+          UIAlertController(title: "Test title", message: "Test message", preferredStyle: UIAlertControllerStyle.Alert)
+        makeMovesInSequence(controller, buttonSequence: [0])
+
+        controller.resetGameWithConfirmation(confirmationDialogue)
+
+        expect(confirmationDialogue.actions[0].title).to(equal("OK"))
+        expect(confirmationDialogue.actions[1].title).to(equal("Cancel"))
+      }
+
+      it("disables reset button when no moves have been made") {
+        expect(resetButton.enabled).to(beFalse())
+      }
+
+      it("enables reset button when one or more moves have been made") {
+        makeMovesInSequence(controller, buttonSequence: [0])
+
+        expect(resetButton.enabled).to(beTrue())
+      }
+
+      it("disables reset button after game reset") {
+        resetButton.enabled = true
+
+        controller.resetGame()
+
+        expect(resetButton.enabled).to(beFalse())
+      }
+
       it("removes board button titles when the game is reset") {
         controller.boardButtons[0].setTitle("foo", forState: UIControlState.Normal)
         controller.boardButtons[1].setTitle("bar", forState: UIControlState.Normal)
 
-        controller.resetBoard()
+        controller.resetGame()
 
         expect(controller.boardButtons[0].currentTitle).to(beNil())
         expect(controller.boardButtons[1].currentTitle).to(beNil())
@@ -90,7 +122,7 @@ class ViewControllerSpec: QuickSpec {
         controller.makeMove(pressedButton1)
         controller.makeMove(pressedButton2)
 
-        controller.resetBoard()
+        controller.resetGame()
 
         expect(pressedButton1.enabled).to(beTrue())
         expect(pressedButton2.enabled).to(beTrue())
@@ -101,13 +133,13 @@ class ViewControllerSpec: QuickSpec {
         controller.makeMove(button)
         let initialMark = button.currentTitle
 
-        controller.resetBoard()
+        controller.resetGame()
         controller.makeMove(button)
 
         expect(initialMark).to(equal("X"))
         expect(button.currentTitle).to(equal(initialMark))
       }
-      
+
       it("disables all buttons when the game is over") {        
         makeMovesInSequence(controller, buttonSequence: [0, 1, 3, 4, 6])
     
@@ -127,7 +159,7 @@ class ViewControllerSpec: QuickSpec {
       it("informs player X that it's their turn after game restart") {
         makeMovesInSequence(controller, buttonSequence: [0, 1, 3, 4, 6])
 
-        controller.resetBoard()
+        controller.resetGame()
 
         expect(controller.infoLabel.text).to(equal("It's player X's turn:"))
       }

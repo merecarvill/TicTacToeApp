@@ -8,11 +8,12 @@ public class ViewController: UIViewController {
 
   @IBOutlet public weak var infoLabel: UILabel!
   @IBOutlet public var boardButtons: [UIButton]!
-  @IBOutlet weak var resetButton: UIButton!
+  @IBOutlet public weak var resetButton: UIButton!
 
   override public func viewDidLoad() {
     super.viewDidLoad()
     updateGameInformationDisplay()
+    resetButton.enabled = false
   }
 
   override public func didReceiveMemoryWarning() {
@@ -20,11 +21,8 @@ public class ViewController: UIViewController {
     // Dispose of any resources that can be recreated.
   }
 
-  @IBAction public func resetBoard() {
-    clearBoard()
-    enableBoardButtons()
-    game = Game()
-    updateGameInformationDisplay()
+  @IBAction func triggerGameReset() {
+    resetGameWithConfirmation()
   }
 
   @IBAction public func makeMove(button: UIButton) {
@@ -32,9 +30,41 @@ public class ViewController: UIViewController {
     game.makeMove(button.tag)
     updateGameInformationDisplay()
 
+    if (!resetButton.enabled) {
+      resetButton.enabled = true
+    }
+
     if game.playerWonLastTurn(game.getInactivePlayer()) {
       disableBoardButtons()
     }
+  }
+
+  public func resetGameWithConfirmation(confirmationDialogue: UIAlertController =
+    UIAlertController(title: "Are you sure?",
+      message: "Current game progress will be lost.",
+      preferredStyle: UIAlertControllerStyle.Alert)) {
+        confirmUserAction(confirmationDialogue, okAction: { self.resetGame() })
+  }
+
+  public func resetGame() {
+    game = Game()
+    clearBoard()
+    enableBoardButtons()
+    resetButton.enabled = false
+    updateGameInformationDisplay()
+  }
+
+  private func confirmUserAction(confirmationDialogue: UIAlertController, okAction: () -> Void ) {
+    addAlertAction(confirmationDialogue, title: "OK", action: {(action: UIAlertAction!) in
+      okAction()
+    })
+    addAlertAction(confirmationDialogue, title: "Cancel", action: {(_) in })
+
+    presentViewController(confirmationDialogue, animated: true, completion: nil)
+  }
+
+  private func addAlertAction(alertController: UIAlertController, title: String, action: (UIAlertAction) -> Void) {
+    alertController.addAction(UIAlertAction(title: title, style: .Default, handler: action))
   }
 
   private func updateGameInformationDisplay() {
