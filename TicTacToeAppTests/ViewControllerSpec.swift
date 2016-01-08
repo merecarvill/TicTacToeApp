@@ -182,6 +182,28 @@ class ViewControllerSpec: QuickSpec {
 
         expect(controller.infoLabel.text).to(equal("Players tied in a draw."))
       }
+
+      it("starts in a human vs human game by default") {
+        expect(controller.currentMode).to(equal(GameMode.HumanVsHuman))
+      }
+
+      it("can change game modes") {
+        let humanVsComputerButton = UIButton()
+        humanVsComputerButton.tag = GameMode.HumanVsComputer.rawValue
+
+        controller.triggerGameModeChange(humanVsComputerButton)
+
+        expect(controller.currentMode).to(equal(GameMode.HumanVsComputer))
+      }
+
+      it("makes the computer move automatically after player move") {
+        controller.currentMode = GameMode.HumanVsComputer
+
+        controller.makeMove(controller.boardButtons[0])
+        let numberOfMarkedSpaces = controller.boardButtons.filter{ !$0.enabled }.count
+
+        expect(numberOfMarkedSpaces).to(equal(2))
+      }
     }
   }
 }

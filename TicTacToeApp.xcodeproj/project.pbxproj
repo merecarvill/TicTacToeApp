@@ -23,6 +23,7 @@
 		06DB7E861C3DB5FB0084C1D9 /* GamePromptSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DB7E851C3DB5FB0084C1D9 /* GamePromptSpec.swift */; };
 		06DB7E881C3DBAF80084C1D9 /* PlayerMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DB7E871C3DBAF80084C1D9 /* PlayerMark.swift */; };
 		06E34AEA1C3C299C00CD529B /* ViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E34AE91C3C299C00CD529B /* ViewControllerSpec.swift */; };
+		06F97B5F1C3F1E2500B54625 /* GameMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F97B5E1C3F1E2500B54625 /* GameMode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		06DB7E871C3DBAF80084C1D9 /* PlayerMark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerMark.swift; sourceTree = "<group>"; };
 		06E34ADF1C3C1E2C00CD529B /* TicTacToeAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TicTacToeAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		06E34AE91C3C299C00CD529B /* ViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerSpec.swift; sourceTree = "<group>"; };
+		06F97B5E1C3F1E2500B54625 /* GameMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameMode.swift; sourceTree = "<group>"; };
 		2AECFB298BA2C6F0776B31E5 /* Pods-TicTacToeAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TicTacToeAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TicTacToeAppTests/Pods-TicTacToeAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		6B8C6FD05508BEFFD58DB3BF /* Pods-TicTacToeAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TicTacToeAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TicTacToeAppTests/Pods-TicTacToeAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED76CA4C5F7F69D5682B65E4 /* Pods_TicTacToeAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TicTacToeAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,6 +131,7 @@
 				06DB7E831C3DB5EC0084C1D9 /* GamePrompt.swift */,
 				06DB7E871C3DBAF80084C1D9 /* PlayerMark.swift */,
 				065759AA1C3F0A8C00A0C2FA /* ComputerPlayer.swift */,
+				06F97B5E1C3F1E2500B54625 /* GameMode.swift */,
 			);
 			path = TicTacToeApp;
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06F97B5F1C3F1E2500B54625 /* GameMode.swift in Sources */,
 				06DB7E841C3DB5EC0084C1D9 /* GamePrompt.swift in Sources */,
 				0647B57B1C31E1D800BAC183 /* ViewController.swift in Sources */,
 				0647B5791C31E1D800BAC183 /* AppDelegate.swift in Sources */,
