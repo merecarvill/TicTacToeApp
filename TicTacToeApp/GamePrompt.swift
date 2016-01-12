@@ -1,8 +1,7 @@
-
 public class GamePrompt {
 
   public init() {
-
+    // initialize with the UILabel?
   }
 
   public func promptFor(game: Game) -> String {
