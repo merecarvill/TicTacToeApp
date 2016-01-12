@@ -1,3 +1,4 @@
+
 public class GamePrompt {
 
   public init() {
