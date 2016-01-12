@@ -151,7 +151,7 @@
                     <connections>
                         <outlet property="hvcGameModeButton" destination="2Wx-Wo-vhC" id="jhb-6M-sUM"/>
                         <outlet property="hvhGameModeButton" destination="MAa-0x-uuR" id="xDc-bm-SB8"/>
-                        <outlet property="infoLabel" destination="Jji-u9-GmL" id="2vv-wE-TW3"/>
+                        <outlet property="prompt" destination="Jji-u9-GmL" id="tak-Th-rIz"/>
                         <outlet property="resetButton" destination="UaE-lz-cLj" id="9e6-9O-gbt"/>
                         <outletCollection property="boardButtons" destination="unL-sN-gSy" collectionClass="NSMutableArray" id="eql-7K-e61"/>
                         <outletCollection property="boardButtons" destination="TWT-Qv-457" collectionClass="NSMutableArray" id="Z7C-uh-LZI"/>

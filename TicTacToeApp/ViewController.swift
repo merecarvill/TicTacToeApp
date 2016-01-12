@@ -24,15 +24,15 @@ public class BoardView: UIView {
 
 public class ViewController: UIViewController {
 
-  private var game = Game()
-  private let gamePrompt = GamePrompt()
-  public var currentMode = GameMode.HumanVsHuman
-
-  @IBOutlet public weak var infoLabel: UILabel!
+  @IBOutlet public weak var prompt: UILabel!
   @IBOutlet public var boardButtons: [UIButton]! // would hyp. live on BoardView
   @IBOutlet public weak var resetButton: UIButton!
   @IBOutlet weak var hvhGameModeButton: UIButton!
   @IBOutlet weak var hvcGameModeButton: UIButton!
+
+  private var gameState = Game()
+  private let gamePrompt = GamePrompt()
+  public var currentMode = GameMode.HumanVsHuman
 
   override public func viewDidLoad() {
     super.viewDidLoad()
@@ -46,18 +46,18 @@ public class ViewController: UIViewController {
   }
 
   @IBAction public func makeMove(button: UIButton) {
-    updateGameBoardForPlayerMove(button.tag, playerMark: game.getCurrentPlayer())
-    game.makeMove(button.tag)
+    updateGameBoardForPlayerMove(button.tag, playerMark: gameState.getCurrentPlayer())
+    gameState.makeMove(button.tag)
     updateGamePrompt()
 
     if (!resetButton.enabled) {
       resetButton.enabled = true
     }
 
-    if game.playerWonLastTurn(game.getInactivePlayer()) || game.isADraw() {
+    if gameState.playerWonLastTurn(gameState.getInactivePlayer()) || gameState.isADraw() {
       disableBoardButtons()
-    } else if (currentMode == GameMode.HumanVsComputer && game.getCurrentPlayer() == PlayerMark.O) {
-      makeMove(getButtonByTag(ComputerPlayer().makeMove(game))!)
+    } else if (currentMode == GameMode.HumanVsComputer && gameState.getCurrentPlayer() == PlayerMark.O) {
+      makeMove(getButtonByTag(ComputerPlayer().makeMove(gameState))!)
     }
   }
 
@@ -81,7 +81,7 @@ public class ViewController: UIViewController {
   }
 
   public func resetGame() {
-    game = Game()
+    gameState = Game()
     clearBoard()
     enableBoardButtons()
     enableResetButton()
@@ -106,7 +106,7 @@ public class ViewController: UIViewController {
   }
 
   private func updateGamePrompt() {
-    infoLabel.text = gamePrompt.promptFor(game)
+    prompt.text = gamePrompt.updateFor(gameState)
   }
 
   private func updateGameBoardForPlayerMove(spaceId: Int, playerMark: PlayerMark) {

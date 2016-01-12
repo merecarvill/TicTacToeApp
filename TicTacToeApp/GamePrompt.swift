@@ -1,17 +1,27 @@
 
+import UIKit
+
 public class GamePrompt {
+  var prompt: UILabel
 
   public init() {
-    // initialize with the UILabel?
+    self.prompt = UILabel()
   }
 
-  public func promptFor(game: Game) -> String {
+  public init(prompt: UILabel) {
+    self.prompt = prompt
+  }
+
+  public func updateFor(game: Game) -> String {
     if game.playerWonLastTurn(game.getInactivePlayer()) {
-      return playerWinPrompt(game.getInactivePlayer())
+      prompt.text = playerWinPrompt(game.getInactivePlayer())
+      return prompt.text!
     } else if game.isADraw() {
-      return "Players tied in a draw."
+      prompt.text = "Players tied in a draw."
+      return prompt.text!
     } else {
-      return playerMovePrompt(game.getCurrentPlayer())
+      prompt.text = playerMovePrompt(game.getCurrentPlayer())
+      return prompt.text!
     }
   }
 

@@ -12,7 +12,7 @@ class ViewControllerSpec: QuickSpec {
   override func spec() {
     
     var controller: ViewController!
-    var infoLabel: UILabel!
+    var prompt: UILabel!
     var resetButton: UIButton!
     
     func tagButtonsInSequence(buttons: [UIButton]) {
@@ -32,9 +32,9 @@ class ViewControllerSpec: QuickSpec {
 
     beforeEach {
       controller = ViewController()
-      infoLabel = UILabel()
+      prompt = UILabel()
       resetButton = UIButton()
-      controller.infoLabel = infoLabel
+      controller.prompt = prompt
       controller.boardButtons = [
           UIButton(), UIButton(), UIButton(),
           UIButton(), UIButton(), UIButton(),
@@ -147,13 +147,13 @@ class ViewControllerSpec: QuickSpec {
       }
 
       it("informs player X that it's their turn when the game starts") {
-        expect(controller.infoLabel.text).to(equal("It's player X's turn:"))
+        expect(controller.prompt.text).to(equal("It's player X's turn:"))
       }
 
       it("informs player O that it's their turn after player X makes their move") {
         controller.makeMove(controller.boardButtons[0])
 
-        expect(controller.infoLabel.text).to(equal("It's player O's turn:"))
+        expect(controller.prompt.text).to(equal("It's player O's turn:"))
       }
 
       it("informs player X that it's their turn after game restart") {
@@ -161,26 +161,26 @@ class ViewControllerSpec: QuickSpec {
 
         controller.resetGame()
 
-        expect(controller.infoLabel.text).to(equal("It's player X's turn:"))
+        expect(controller.prompt.text).to(equal("It's player X's turn:"))
       }
 
       it("informs winning player X that they won") {
         makeMovesInSequence(controller, buttonSequence: [0, 1, 3, 4, 6])
 
-        expect(controller.infoLabel.text).to(equal("Player X won!"))
+        expect(controller.prompt.text).to(equal("Player X won!"))
       }
 
       it("informs winning player O that they won") {
         makeMovesInSequence(controller, buttonSequence: [2, 0, 1, 3, 4, 6])
 
 
-        expect(controller.infoLabel.text).to(equal("Player O won!"))
+        expect(controller.prompt.text).to(equal("Player O won!"))
       }
 
       it("informs players of a draw") {
         makeMovesInSequence(controller, buttonSequence: [0, 1, 3, 4, 7, 6, 2, 5, 8])
 
-        expect(controller.infoLabel.text).to(equal("Players tied in a draw."))
+        expect(controller.prompt.text).to(equal("Players tied in a draw."))
       }
 
       it("starts in a human vs human game by default") {
