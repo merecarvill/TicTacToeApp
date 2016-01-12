@@ -19,16 +19,20 @@ public class Board {
     return Board(markedSpaces: newSpaces)
   }
 
-  public func readSpace(id: Int) -> PlayerMark? {
-    return markedSpaces[id]
+  public func readSpace(id: Int) -> PlayerMark {
+    return markedSpaces[id] ?? PlayerMark.NONE
   }
 
   public func allSpacesMarked() -> Bool {
-    return (0..<(size * size)).reduce(true, combine: { $0 && markedSpaces[$1] != nil })
+    return (0..<numberOfSpaces()).reduce(true, combine: { $0 && markedSpaces[$1] != nil })
   }
 
   public func hasWinningLine() -> Bool {
     return lines().reduce(false, combine: { $0 || lineHasAllSameMark($1) })
+  }
+
+  public func numberOfSpaces() -> Int {
+    return size * size
   }
 
   private func lineHasAllSameMark(line: [Int]) -> Bool {

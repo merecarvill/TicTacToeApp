@@ -53,6 +53,21 @@ class GameSpec: QuickSpec {
 
         expect(game.isADraw()).to(beTrue())
       }
+
+      it("reports the marks on the board") {
+        let game = Game()
+        makeSequenceOfMoves(game, moves: [0, 1, 3, 4, 6])
+
+        let expectedMarks: [PlayerMark?] = [
+          PlayerMark.X, PlayerMark.O, PlayerMark.NONE,
+          PlayerMark.X, PlayerMark.O, PlayerMark.NONE,
+          PlayerMark.X, PlayerMark.NONE, PlayerMark.NONE
+        ]
+
+        for spaceId in (0..<expectedMarks.count) {
+          expect(game.getBoardMarks()[spaceId]).to(equal(expectedMarks[spaceId]))
+        }
+      }
     }
   }
 }

@@ -131,10 +131,26 @@
                                     <action selector="makeMove:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gbn-n6-71V"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MAa-0x-uuR">
+                                <rect key="frame" x="39" y="269" width="42" height="30"/>
+                                <state key="normal" title="HvH"/>
+                                <connections>
+                                    <action selector="triggerGameModeChange:" destination="BYZ-38-t0r" eventType="touchUpInside" id="icD-ZB-oph"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Wx-Wo-vhC">
+                                <rect key="frame" x="147" y="269" width="50" height="30"/>
+                                <state key="normal" title="HvC"/>
+                                <connections>
+                                    <action selector="triggerGameModeChange:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CEb-xU-KQN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="hvcGameModeButton" destination="2Wx-Wo-vhC" id="jhb-6M-sUM"/>
+                        <outlet property="hvhGameModeButton" destination="MAa-0x-uuR" id="xDc-bm-SB8"/>
                         <outlet property="infoLabel" destination="Jji-u9-GmL" id="2vv-wE-TW3"/>
                         <outlet property="resetButton" destination="UaE-lz-cLj" id="9e6-9O-gbt"/>
                         <outletCollection property="boardButtons" destination="unL-sN-gSy" collectionClass="NSMutableArray" id="eql-7K-e61"/>
