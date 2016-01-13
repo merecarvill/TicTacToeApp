@@ -31,11 +31,12 @@ public class ViewController: UIViewController {
   @IBOutlet weak var hvcGameModeButton: UIButton!
 
   private var gameState = Game()
-  private let gamePrompt = GamePrompt()
+  private var gamePrompt: GamePrompt?
   public var currentMode = GameMode.HumanVsHuman
 
   override public func viewDidLoad() {
     super.viewDidLoad()
+    gamePrompt = GamePrompt(prompt: prompt)
     updateGamePrompt()
     resetButton.enabled = false
   }
@@ -106,7 +107,7 @@ public class ViewController: UIViewController {
   }
 
   private func updateGamePrompt() {
-    prompt.text = gamePrompt.updateFor(gameState)
+    prompt.text = gamePrompt?.updateFor(gameState)
   }
 
   private func updateGameBoardForPlayerMove(spaceId: Int, playerMark: PlayerMark) {
