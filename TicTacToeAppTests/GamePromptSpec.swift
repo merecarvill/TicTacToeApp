@@ -22,32 +22,43 @@ class GamePromptSpec: QuickSpec {
       }
 
       it("informs player O that it's their turn after player X makes their move") {
+        let prompt = UILabel()
         let gameState = Game()
-
         gameState.makeMove(0)
 
-        expect(GamePrompt().updateFor(gameState)).to(equal("It's player O's turn:"))
+        GamePrompt(prompt: prompt).updateFor(gameState)
+
+        expect(prompt.text).to(equal("It's player O's turn:"))
       }
 
       it("informs winning player X that they won") {
+        let prompt = UILabel()
         let gameState = Game()
         makeMovesInSequence(gameState, moveSequence: [0, 1, 3, 4, 6])
 
-        expect(GamePrompt().updateFor(gameState)).to(equal("Player X won!"))
+        GamePrompt(prompt: prompt).updateFor(gameState)
+
+        expect(prompt.text).to(equal("Player X won!"))
       }
 
       it("informs winning player O that they won") {
+        let prompt = UILabel()
         let gameState = Game()
         makeMovesInSequence(gameState, moveSequence: [2, 0, 1, 3, 4, 6])
 
-        expect(GamePrompt().updateFor(gameState)).to(equal("Player O won!"))
+        GamePrompt(prompt: prompt).updateFor(gameState)
+
+        expect(prompt.text).to(equal("Player O won!"))
       }
 
       it("informs players of a draw") {
+        let prompt = UILabel()
         let gameState = Game()
         makeMovesInSequence(gameState, moveSequence: [0, 1, 3, 4, 7, 6, 2, 5, 8])
 
-        expect(GamePrompt().updateFor(gameState)).to(equal("Players tied in a draw."))
+        GamePrompt(prompt: prompt).updateFor(gameState)
+
+        expect(prompt.text).to(equal("Players tied in a draw."))
       }
     }
   }
