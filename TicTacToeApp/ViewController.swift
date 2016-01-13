@@ -1,152 +1,99 @@
 
 import UIKit
 
-public class BoardButton: UIButton {
-}
-
-public class BoardView: UIView {
-
-  // hypothetical interface
-  public func enableInput() {}
-  public func disableInput() {}
-  public func clear() {}
-
-}
-
-// Refactoring alert dialog
-// Might be overkill. Let's revisit after board button refactorings
-//public class ConfirmResetGameAlert: UIAlertController {}
-// Alternatively, consider builder patter, or just wrapping the alert dialog
-//     i.e. composition over inheritance
-//public class ConfirmResetGameAlert {
-//  var alertController: UIAlertController?
-//}
-
 public class ViewController: UIViewController {
 
-  private var game = Game()
-  private let gamePrompt = GamePrompt()
-  public var currentMode = GameMode.HumanVsHuman
-
-  @IBOutlet public weak var infoLabel: UILabel!
-  @IBOutlet public var boardButtons: [UIButton]! // would hyp. live on BoardView
+  @IBOutlet public weak var prompt: UILabel!
+  @IBOutlet public var boardButtons: [UIButton]!
   @IBOutlet public weak var resetButton: UIButton!
-  @IBOutlet weak var hvhGameModeButton: UIButton!
-  @IBOutlet weak var hvcGameModeButton: UIButton!
+  @IBOutlet var gameModeButtons: [UIButton]!
+
+  private var gameState = Game()
+  private var gameBoard: BoardButtons?
+  private var gamePrompt: GamePrompt?
+  public var currentMode = GameMode.HumanVsHuman
+  public var confirmationAlert: UIAlertController?
+
 
   override public func viewDidLoad() {
     super.viewDidLoad()
-    updateGamePrompt()
+    gameBoard = BoardButtons(buttons: boardButtons)
+    gamePrompt = GamePrompt(prompt: prompt)
+    confirmationAlert = createAlert("Are you sure?", message: "Current game progress will be lost.")
+    gamePrompt?.updateFor(gameState)
     resetButton.enabled = false
-  }
-
-  // Rename to resetGame
-  @IBAction public func triggerGameReset() {
-    resetGameWithConfirmation()
   }
 
   @IBAction public func makeMove(button: UIButton) {
-    updateGameBoardForPlayerMove(button.tag, playerMark: game.getCurrentPlayer())
-    game.makeMove(button.tag)
-    updateGamePrompt()
+    gameBoard?.markButton(gameState.getCurrentPlayer(), spaceId: button.tag)
 
-    if (!resetButton.enabled) {
-      resetButton.enabled = true
-    }
+    gameState.makeMove(button.tag)
+    gamePrompt?.updateFor(gameState)
+    resetButton.enabled = true
 
-    if game.playerWonLastTurn(game.getInactivePlayer()) || game.isADraw() {
-      disableBoardButtons()
-    } else if (currentMode == GameMode.HumanVsComputer && game.getCurrentPlayer() == PlayerMark.O) {
-      makeMove(getButtonByTag(ComputerPlayer().makeMove(game))!)
+    if gameIsOver(gameState) {
+      gameBoard?.disableInput()
+    } else if isComputersTurn(gameState) {
+      makeMove(getCorrespondingButton(ComputerPlayer().makeMove(gameState))!)
     }
   }
 
-  @IBAction public func triggerGameModeChange(button: UIButton) {
-    changeGameMode(getModeFrom(button))
+  private func gameIsOver(game: Game) -> Bool {
+    return gameState.playerWonLastTurn(game.getInactivePlayer()) || game.isADraw()
   }
 
-  private func changeGameMode(mode: GameMode) {
-    if (mode == GameMode.HumanVsHuman) {
-      currentMode = GameMode.HumanVsHuman
-    } else {
-      currentMode = GameMode.HumanVsComputer
-    }
+  private func isComputersTurn(game: Game) -> Bool {
+    return currentMode == GameMode.HumanVsComputer && gameState.getCurrentPlayer() == PlayerMark.O
   }
 
-  public func resetGameWithConfirmation(confirmationDialogue: UIAlertController =
-    UIAlertController(title: "Are you sure?",
-      message: "Current game progress will be lost.",
-      preferredStyle: UIAlertControllerStyle.Alert)) {
-        confirmUserAction(confirmationDialogue, okAction: { self.resetGame() })
-  }
-
-  public func resetGame() {
-    game = Game()
-    clearBoard()
-    enableBoardButtons()
-    enableResetButton()
-    updateGamePrompt()
-  }
-
-  private func enableResetButton() {
-    resetButton.enabled = false
-  }
-
-  private func confirmUserAction(confirmationDialogue: UIAlertController, okAction: () -> Void ) {
-    addAlertAction(confirmationDialogue, title: "OK", action: {(action: UIAlertAction!) in
-      okAction()
-    })
-    addAlertAction(confirmationDialogue, title: "Cancel", action: {(_) in })
-
-    presentViewController(confirmationDialogue, animated: true, completion: nil)
-  }
-
-  private func addAlertAction(alertController: UIAlertController, title: String, action: (UIAlertAction) -> Void) {
-    alertController.addAction(UIAlertAction(title: title, style: .Default, handler: action))
-  }
-
-  private func updateGamePrompt() {
-    infoLabel.text = gamePrompt.promptFor(game)
-  }
-
-  private func updateGameBoardForPlayerMove(spaceId: Int, playerMark: PlayerMark) {
-    let button = getButtonByTag(spaceId) ?? UIButton()
-
-    button.setTitle(getButtonTextFor(playerMark), forState: UIControlState.Normal)
-    button.enabled = false
-  }
-
-  private func getButtonByTag(spaceId: Int) -> UIButton? {
+  private func getCorrespondingButton(spaceId: Int) -> UIButton? {
     for button in boardButtons {
       if button.tag == spaceId {
         return button
       }
     }
-
     return nil
   }
 
-  private func clearBoard() {
-    boardButtons.forEach{ $0.setTitle(nil, forState: UIControlState.Normal) }
-  }
-
-  private func enableBoardButtons() {
-    boardButtons.forEach{ $0.enabled = true }
-  }
-
-  private func disableBoardButtons() {
-    boardButtons.forEach{ $0.enabled = false }
-  }
-
-  private func getButtonTextFor(playerMark: PlayerMark) -> String {
-    return playerMark == PlayerMark.X ? "X" : "O"
-  }
-
-  private func getModeFrom(button: UIButton) -> GameMode {
-    switch button.tag {
-      case 0: return GameMode.HumanVsHuman
-      case 1: return GameMode.HumanVsComputer
-      default: return GameMode.HumanVsHuman
+  @IBAction public func resetGameWithConfirmation() {
+    if userConfirmsAction(confirmationAlert!) {
+      resetGame()
     }
+  }
+
+  public func resetGame() {
+    gameState = Game()
+    gamePrompt?.updateFor(gameState)
+    gameBoard?.clearMarks()
+    resetButton.enabled = false
+  }
+
+  private func userConfirmsAction(confirmationAlert: UIAlertController) -> Bool {
+    var actionConfirmed = false
+    addAction(confirmationAlert, title: "OK", action: { (_) in actionConfirmed = true })
+    addAction(confirmationAlert, title: "Cancel", action: { (_) in })
+
+    presentViewController(confirmationAlert, animated: true, completion: nil)
+
+    return actionConfirmed
+  }
+
+  @IBAction public func triggerGameModeChange(button: UIButton) {
+    switch button.tag {
+      case 0: currentMode = GameMode.HumanVsHuman
+      case 1: currentMode = GameMode.HumanVsComputer
+      default: currentMode = GameMode.HumanVsHuman
+    }
+  }
+
+  private func createAlert(title: String, message: String) -> UIAlertController {
+    return UIAlertController(
+      title: title,
+      message: message,
+      preferredStyle: UIAlertControllerStyle.Alert)
+  }
+
+  private func addAction(alertController: UIAlertController, title: String, action: (UIAlertAction) -> Void) {
+    alertController.addAction(UIAlertAction(title: title, style: .Default, handler: action))
   }
 }

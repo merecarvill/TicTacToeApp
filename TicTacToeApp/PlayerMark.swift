@@ -1,4 +1,6 @@
 
-public enum PlayerMark {
-  case X, O, NONE
+public enum PlayerMark: String {
+  case X = "X"
+  case O = "O"
+  case NONE = ""
 }

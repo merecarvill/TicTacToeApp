@@ -117,7 +117,7 @@
                                     <color key="titleShadowColor" red="0.76207386363636365" green="0.76207386363636365" blue="0.76207386363636365" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="triggerGameReset" destination="BYZ-38-t0r" eventType="touchUpInside" id="OLg-b6-Bv5"/>
+                                    <action selector="resetGameWithConfirmation" destination="BYZ-38-t0r" eventType="touchUpInside" id="zuc-eE-xyw"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TWT-Qv-457" userLabel="Board Button 0">
@@ -149,9 +149,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="hvcGameModeButton" destination="2Wx-Wo-vhC" id="jhb-6M-sUM"/>
-                        <outlet property="hvhGameModeButton" destination="MAa-0x-uuR" id="xDc-bm-SB8"/>
-                        <outlet property="infoLabel" destination="Jji-u9-GmL" id="2vv-wE-TW3"/>
+                        <outlet property="prompt" destination="Jji-u9-GmL" id="tak-Th-rIz"/>
                         <outlet property="resetButton" destination="UaE-lz-cLj" id="9e6-9O-gbt"/>
                         <outletCollection property="boardButtons" destination="unL-sN-gSy" collectionClass="NSMutableArray" id="eql-7K-e61"/>
                         <outletCollection property="boardButtons" destination="TWT-Qv-457" collectionClass="NSMutableArray" id="Z7C-uh-LZI"/>
@@ -162,11 +160,13 @@
                         <outletCollection property="boardButtons" destination="0u0-S7-NeQ" collectionClass="NSMutableArray" id="Ddp-ha-SL6"/>
                         <outletCollection property="boardButtons" destination="Tiq-Ru-a7o" collectionClass="NSMutableArray" id="Bii-a9-x7v"/>
                         <outletCollection property="boardButtons" destination="Oza-ie-rjI" collectionClass="NSMutableArray" id="m8o-mT-dlg"/>
+                        <outletCollection property="gameModeButtons" destination="MAa-0x-uuR" collectionClass="NSMutableArray" id="rIU-L8-g2L"/>
+                        <outletCollection property="gameModeButtons" destination="2Wx-Wo-vhC" collectionClass="NSMutableArray" id="L1s-cq-eOS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="235" y="497"/>
+            <point key="canvasLocation" x="193" y="511"/>
         </scene>
     </scenes>
 </document>

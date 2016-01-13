@@ -14,36 +14,51 @@ class GamePromptSpec: QuickSpec {
 
     describe("GamePrompt") {
       it("informs player X that it's their turn when the game starts") {
-        expect(GamePrompt().promptFor(Game())).to(equal("It's player X's turn:"))
+        let prompt = UILabel()
+
+        GamePrompt(prompt: prompt).updateFor(Game())
+
+        expect(prompt.text).to(equal("It's player X's turn:"))
       }
 
       it("informs player O that it's their turn after player X makes their move") {
-        let game = Game()
+        let prompt = UILabel()
+        let gameState = Game()
+        gameState.makeMove(0)
 
-        game.makeMove(0)
+        GamePrompt(prompt: prompt).updateFor(gameState)
 
-        expect(GamePrompt().promptFor(game)).to(equal("It's player O's turn:"))
+        expect(prompt.text).to(equal("It's player O's turn:"))
       }
 
       it("informs winning player X that they won") {
-        let game = Game()
-        makeMovesInSequence(game, moveSequence: [0, 1, 3, 4, 6])
+        let prompt = UILabel()
+        let gameState = Game()
+        makeMovesInSequence(gameState, moveSequence: [0, 1, 3, 4, 6])
 
-        expect(GamePrompt().promptFor(game)).to(equal("Player X won!"))
+        GamePrompt(prompt: prompt).updateFor(gameState)
+
+        expect(prompt.text).to(equal("Player X won!"))
       }
 
       it("informs winning player O that they won") {
-        let game = Game()
-        makeMovesInSequence(game, moveSequence: [2, 0, 1, 3, 4, 6])
+        let prompt = UILabel()
+        let gameState = Game()
+        makeMovesInSequence(gameState, moveSequence: [2, 0, 1, 3, 4, 6])
 
-        expect(GamePrompt().promptFor(game)).to(equal("Player O won!"))
+        GamePrompt(prompt: prompt).updateFor(gameState)
+
+        expect(prompt.text).to(equal("Player O won!"))
       }
 
       it("informs players of a draw") {
-        let game = Game()
-        makeMovesInSequence(game, moveSequence: [0, 1, 3, 4, 7, 6, 2, 5, 8])
+        let prompt = UILabel()
+        let gameState = Game()
+        makeMovesInSequence(gameState, moveSequence: [0, 1, 3, 4, 7, 6, 2, 5, 8])
 
-        expect(GamePrompt().promptFor(game)).to(equal("Players tied in a draw."))
+        GamePrompt(prompt: prompt).updateFor(gameState)
+
+        expect(prompt.text).to(equal("Players tied in a draw."))
       }
     }
   }
