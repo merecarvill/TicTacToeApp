@@ -78,14 +78,15 @@ class ViewControllerSpec: QuickSpec {
       }
 
       it("presents user with confirmation when attempting to reset game") {
-        let confirmationDialogue =
+        let confirmationAlert =
           UIAlertController(title: "Test title", message: "Test message", preferredStyle: UIAlertControllerStyle.Alert)
+        controller.confirmationAlert = confirmationAlert
         makeMovesInSequence(controller, buttonSequence: [0])
 
-        controller.resetGameWithConfirmation(confirmationDialogue)
+        controller.resetGameWithConfirmation()
 
-        expect(confirmationDialogue.actions[0].title).to(equal("OK"))
-        expect(confirmationDialogue.actions[1].title).to(equal("Cancel"))
+        expect(confirmationAlert.actions[0].title).to(equal("OK"))
+        expect(confirmationAlert.actions[1].title).to(equal("Cancel"))
       }
 
       it("disables reset button when no moves have been made") {
