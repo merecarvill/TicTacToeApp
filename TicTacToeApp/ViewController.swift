@@ -1,22 +1,12 @@
 
 import UIKit
 
-// Refactoring alert dialog
-// Might be overkill. Let's revisit after board button refactorings
-//public class ConfirmResetGameAlert: UIAlertController {}
-// Alternatively, consider builder patter, or just wrapping the alert dialog
-//     i.e. composition over inheritance
-//public class ConfirmResetGameAlert {
-//  var alertController: UIAlertController?
-//}
-
 public class ViewController: UIViewController {
 
   @IBOutlet public weak var prompt: UILabel!
   @IBOutlet public var boardButtons: [UIButton]!
   @IBOutlet public weak var resetButton: UIButton!
-  @IBOutlet weak var hvhGameModeButton: UIButton!
-  @IBOutlet weak var hvcGameModeButton: UIButton!
+  @IBOutlet var gameModeButtons: [UIButton]!
 
   private var gameState = Game()
   private var gameBoard: BoardButtons?
@@ -31,7 +21,6 @@ public class ViewController: UIViewController {
     resetButton.enabled = false
   }
 
-  // Rename to resetGame
   @IBAction public func triggerGameReset() {
     resetGameWithConfirmation()
   }
@@ -51,7 +40,11 @@ public class ViewController: UIViewController {
   }
 
   @IBAction public func triggerGameModeChange(button: UIButton) {
-    changeGameMode(getModeFrom(button))
+    switch button.tag {
+      case 0: currentMode = GameMode.HumanVsHuman
+      case 1: currentMode = GameMode.HumanVsComputer
+      default: currentMode = GameMode.HumanVsHuman
+    }
   }
 
   public func resetGameWithConfirmation(confirmationDialogue: UIAlertController =
@@ -66,14 +59,6 @@ public class ViewController: UIViewController {
     gamePrompt?.updateFor(gameState)
     gameBoard?.clearMarks()
     resetButton.enabled = false
-  }
-
-  private func changeGameMode(mode: GameMode) {
-    if (mode == GameMode.HumanVsHuman) {
-      currentMode = GameMode.HumanVsHuman
-    } else {
-      currentMode = GameMode.HumanVsComputer
-    }
   }
 
   private func confirmUserAction(confirmationDialogue: UIAlertController, okAction: () -> Void ) {
@@ -97,13 +82,5 @@ public class ViewController: UIViewController {
     }
 
     return nil
-  }
-
-  private func getModeFrom(button: UIButton) -> GameMode {
-    switch button.tag {
-      case 0: return GameMode.HumanVsHuman
-      case 1: return GameMode.HumanVsComputer
-      default: return GameMode.HumanVsHuman
-    }
   }
 }
