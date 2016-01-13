@@ -26,14 +26,10 @@ public class GamePrompt {
   }
 
   private func playerMovePrompt(playerMark: PlayerMark) -> String {
-    return "It's player " + playerMarkToString(playerMark) + "'s turn:"
+    return "It's player " + playerMark.rawValue + "'s turn:"
   }
 
   private func playerWinPrompt(playerMark: PlayerMark) -> String {
-    return "Player " + playerMarkToString(playerMark) + " won!"
-  }
-
-  private func playerMarkToString(player: PlayerMark) -> String {
-    return player == PlayerMark.X ? "X" : "O"
+    return "Player " + playerMark.rawValue + " won!"
   }
 }

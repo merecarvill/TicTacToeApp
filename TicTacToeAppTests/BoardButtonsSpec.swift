@@ -33,7 +33,7 @@ class BoardButtonsSpec: QuickSpec {
         let buttons = taggedButtons()
         let boardButtons = BoardButtons(buttons: buttons)
 
-        boardButtons.markButton("X", spaceId: 0)
+        boardButtons.markButton(PlayerMark.X, spaceId: 0)
 
         expect(getButtonBySpaceId(buttons, spaceId: 0)?.currentTitle).to(equal("X"))
       }
@@ -42,7 +42,7 @@ class BoardButtonsSpec: QuickSpec {
         let buttons = taggedButtons()
         let boardButtons = BoardButtons(buttons: buttons)
 
-        boardButtons.markButton("X", spaceId: 0)
+        boardButtons.markButton(PlayerMark.X, spaceId: 0)
 
         expect(getButtonBySpaceId(buttons, spaceId: 0)?.enabled).to(beFalse())
       }
@@ -50,8 +50,8 @@ class BoardButtonsSpec: QuickSpec {
       it("can clear the buttons of marks") {
         let buttons = taggedButtons()
         let boardButtons = BoardButtons(buttons: buttons)
-        boardButtons.markButton("X", spaceId: 0)
-        boardButtons.markButton("O", spaceId: 1)
+        boardButtons.markButton(PlayerMark.X, spaceId: 0)
+        boardButtons.markButton(PlayerMark.O, spaceId: 1)
 
         boardButtons.clearMarks()
 
@@ -61,8 +61,8 @@ class BoardButtonsSpec: QuickSpec {
       it("enables all buttons when they are cleared of marks") {
         let buttons = taggedButtons()
         let boardButtons = BoardButtons(buttons: buttons)
-        boardButtons.markButton("X", spaceId: 0)
-        boardButtons.markButton("O", spaceId: 1)
+        boardButtons.markButton(PlayerMark.X, spaceId: 0)
+        boardButtons.markButton(PlayerMark.O, spaceId: 1)
 
         boardButtons.clearMarks()
 
@@ -73,7 +73,7 @@ class BoardButtonsSpec: QuickSpec {
         let buttons = taggedButtons()
         let boardButtons = BoardButtons(buttons: buttons)
 
-        boardButtons.disable()
+        boardButtons.disableInput()
 
         expect(buttons).to(allPass{ $0?.enabled == false })
       }

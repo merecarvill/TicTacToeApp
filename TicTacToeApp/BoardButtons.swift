@@ -8,9 +8,9 @@ public class BoardButtons {
     self.buttons = buttons
   }
 
-  public func markButton(mark: String, spaceId: Int) {
+  public func markButton(playerMark: PlayerMark, spaceId: Int) {
     let button = getButtonBySpaceId(spaceId)
-    button?.setTitle(mark, forState: UIControlState.Normal)
+    button?.setTitle(playerMark.rawValue, forState: UIControlState.Normal)
     button?.enabled = false
   }
 
@@ -21,7 +21,7 @@ public class BoardButtons {
     }
   }
 
-  public func disable() {
+  public func disableInput() {
     buttons.forEach{ $0.enabled = false }
   }
 
