@@ -14,18 +14,20 @@ class ComputerPlayerSpec: QuickSpec {
 
     describe("ComputerPlayer") {
 
-      it("chooses a move given a game state") {
+      it("chooses a move within the bounds of the board") {
         expect(ComputerPlayer().makeMove(Game())) >= 0
         expect(ComputerPlayer().makeMove(Game())) < 9
       }
 
       it("only selects moves for unmarked spaces") {
-        let game = Game()
-        makeSequenceOfMoves(game, moves: [0, 1, 2, 3, 4, 5, 6, 7])
+        let game1 = Game()
+        makeSequenceOfMoves(game1, moves: [0, 1, 2, 3, 4, 5, 6, 7])
+        let game2 = Game()
+        makeSequenceOfMoves(game2, moves: [1, 2, 3, 4, 5, 6, 7, 8])
 
-        expect(ComputerPlayer().makeMove(game)).to(equal(8))
+        expect(ComputerPlayer().makeMove(game1)).to(equal(8))
+        expect(ComputerPlayer().makeMove(game2)).to(equal(0))
       }
     }
-
   }
 }
