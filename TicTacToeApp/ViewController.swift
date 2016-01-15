@@ -12,14 +12,11 @@ public class ViewController: UIViewController {
   private var gameBoard: BoardButtons?
   private var gamePrompt: GamePrompt?
   public var currentMode = GameMode.HumanVsHuman
-  public var confirmationAlert: UIAlertController?
-
 
   override public func viewDidLoad() {
     super.viewDidLoad()
     gameBoard = BoardButtons(buttons: boardButtons)
     gamePrompt = GamePrompt(prompt: prompt)
-    confirmationAlert = createAlert("Are you sure?", message: "Current game progress will be lost.")
     gamePrompt?.updateFor(gameState)
     resetButton.enabled = false
   }
@@ -56,9 +53,12 @@ public class ViewController: UIViewController {
   }
 
   @IBAction public func resetGameWithConfirmation() {
-    if userConfirmsAction(confirmationAlert!) {
-      resetGame()
-    }
+    let confirmationAlert =
+      createAlert("Are you sure?", message: "Current game progress will be lost.")
+    addAction(confirmationAlert, title: "OK", action: { (_) in self.resetGame() })
+    addAction(confirmationAlert, title: "Cancel", action: { (_) in })
+
+    presentViewController(confirmationAlert, animated: true, completion: nil)
   }
 
   public func resetGame() {
@@ -66,16 +66,6 @@ public class ViewController: UIViewController {
     gamePrompt?.updateFor(gameState)
     gameBoard?.clearMarks()
     resetButton.enabled = false
-  }
-
-  private func userConfirmsAction(confirmationAlert: UIAlertController) -> Bool {
-    var actionConfirmed = false
-    addAction(confirmationAlert, title: "OK", action: { (_) in actionConfirmed = true })
-    addAction(confirmationAlert, title: "Cancel", action: { (_) in })
-
-    presentViewController(confirmationAlert, animated: true, completion: nil)
-
-    return actionConfirmed
   }
 
   @IBAction public func triggerGameModeChange(button: UIButton) {
