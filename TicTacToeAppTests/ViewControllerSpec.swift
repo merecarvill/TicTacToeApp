@@ -81,7 +81,7 @@ class ViewControllerSpec: QuickSpec {
         expect(secondMoveButton.currentTitle).to(equal(secondPlayerMark))
       }
 
-      it("alternates between marking buttons with first and second player mark in subsequent turns") {
+      it("alternates between first and second player mark in subsequent turns") {
         let thirdMoveButton = controller.boardButtons[2]
         let fourthMoveButton = controller.boardButtons[3]
 

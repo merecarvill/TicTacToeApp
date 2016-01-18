@@ -6,11 +6,11 @@ public class Game {
 
   public init() {
     board = Board()
-    currentPlayer = PlayerMark.X
+    currentPlayer = .X
   }
 
-  public func makeMove(boardSpace: Int) {
-    board = board.markSpace(boardSpace, mark: currentPlayer)
+  public func makeMove(space: Int) {
+    board = board.markSpace(space, mark: currentPlayer)
     currentPlayer = otherPlayer()
   }
 
@@ -22,12 +22,12 @@ public class Game {
     return otherPlayer()
   }
 
-  public func playerWonLastTurn(mark: PlayerMark) -> Bool {
+  public func playerWon(mark: PlayerMark) -> Bool {
     return board.hasWinningLine() && currentPlayer != mark
   }
 
   public func isADraw() -> Bool {
-    return board.allSpacesMarked() && !board.hasWinningLine()
+    return board.isFull() && !board.hasWinningLine()
   }
 
   public func getBoardMarks() -> [PlayerMark?] {
@@ -35,6 +35,6 @@ public class Game {
   }
 
   private func otherPlayer() -> PlayerMark {
-    return currentPlayer == PlayerMark.X ? PlayerMark.O : PlayerMark.X
+    return currentPlayer == .X ? .O : .X
   }
 }

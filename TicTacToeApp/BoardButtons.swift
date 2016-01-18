@@ -8,8 +8,8 @@ public class BoardButtons {
     self.buttons = buttons
   }
 
-  public func markButton(playerMark: PlayerMark, spaceId: Int) {
-    let button = getButtonBySpaceId(spaceId)
+  public func markButton(playerMark: PlayerMark, space: Int) {
+    let button = getButtonFor(space)
     button?.setTitle(playerMark.rawValue, forState: UIControlState.Normal)
     button?.enabled = false
   }
@@ -25,9 +25,9 @@ public class BoardButtons {
     buttons.forEach{ $0.enabled = false }
   }
 
-  private func getButtonBySpaceId(spaceId: Int) -> UIButton? {
+  private func getButtonFor(space: Int) -> UIButton? {
     for button in buttons {
-      if button.tag == spaceId {
+      if button.tag == space {
         return button
       }
     }

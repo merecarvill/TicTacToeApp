@@ -12,18 +12,18 @@ public class Board {
     self.markedSpaces = markedSpaces
   }
 
-  public func markSpace(id: Int, mark: PlayerMark) -> Board {
+  public func markSpace(space: Int, mark: PlayerMark) -> Board {
     var newSpaces = markedSpaces
-    newSpaces[id] = mark
+    newSpaces[space] = mark
 
     return Board(markedSpaces: newSpaces)
   }
 
-  public func readSpace(id: Int) -> PlayerMark {
-    return markedSpaces[id] ?? PlayerMark.NONE
+  public func readSpace(space: Int) -> PlayerMark {
+    return markedSpaces[space] ?? PlayerMark.NONE
   }
 
-  public func allSpacesMarked() -> Bool {
+  public func isFull() -> Bool {
     return (0..<numberOfSpaces()).reduce(true, combine: { $0 && markedSpaces[$1] != nil })
   }
 

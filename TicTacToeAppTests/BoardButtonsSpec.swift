@@ -19,9 +19,9 @@ class BoardButtonsSpec: QuickSpec {
         return button
       }
 
-      func getButtonBySpaceId(buttons: [UIButton], spaceId: Int) -> UIButton? {
+      func getButtonFor(space: Int, buttons: [UIButton]) -> UIButton? {
         for button in buttons {
-          if button.tag == spaceId {
+          if button.tag == space {
             return button
           }
         }
@@ -33,25 +33,25 @@ class BoardButtonsSpec: QuickSpec {
         let buttons = taggedButtons()
         let boardButtons = BoardButtons(buttons: buttons)
 
-        boardButtons.markButton(PlayerMark.X, spaceId: 0)
+        boardButtons.markButton(.X, space: 0)
 
-        expect(getButtonBySpaceId(buttons, spaceId: 0)?.currentTitle).to(equal("X"))
+        expect(getButtonFor(0, buttons: buttons)?.currentTitle).to(equal("X"))
       }
 
       it("disables button once it is marked") {
         let buttons = taggedButtons()
         let boardButtons = BoardButtons(buttons: buttons)
 
-        boardButtons.markButton(PlayerMark.X, spaceId: 0)
+        boardButtons.markButton(.X, space: 0)
 
-        expect(getButtonBySpaceId(buttons, spaceId: 0)?.enabled).to(beFalse())
+        expect(getButtonFor(0, buttons: buttons)?.enabled).to(beFalse())
       }
 
       it("can clear the buttons of marks") {
         let buttons = taggedButtons()
         let boardButtons = BoardButtons(buttons: buttons)
-        boardButtons.markButton(PlayerMark.X, spaceId: 0)
-        boardButtons.markButton(PlayerMark.O, spaceId: 1)
+        boardButtons.markButton(.X, space: 0)
+        boardButtons.markButton(.O, space: 1)
 
         boardButtons.clearMarks()
 
@@ -61,8 +61,8 @@ class BoardButtonsSpec: QuickSpec {
       it("enables all buttons when they are cleared of marks") {
         let buttons = taggedButtons()
         let boardButtons = BoardButtons(buttons: buttons)
-        boardButtons.markButton(PlayerMark.X, spaceId: 0)
-        boardButtons.markButton(PlayerMark.O, spaceId: 1)
+        boardButtons.markButton(.X, space: 0)
+        boardButtons.markButton(.O, space: 1)
 
         boardButtons.clearMarks()
 

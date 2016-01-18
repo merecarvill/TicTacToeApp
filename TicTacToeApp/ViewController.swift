@@ -22,7 +22,7 @@ public class ViewController: UIViewController {
   }
 
   @IBAction public func makeMove(button: UIButton) {
-    gameBoard?.markButton(gameState.getCurrentPlayer(), spaceId: button.tag)
+    gameBoard?.markButton(gameState.getCurrentPlayer(), space: button.tag)
 
     gameState.makeMove(button.tag)
     gamePrompt?.updateFor(gameState)
@@ -36,7 +36,7 @@ public class ViewController: UIViewController {
   }
 
   private func gameIsOver(game: Game) -> Bool {
-    return gameState.playerWonLastTurn(game.getInactivePlayer()) || game.isADraw()
+    return gameState.playerWon(game.getInactivePlayer()) || game.isADraw()
   }
 
   private func isComputersTurn(game: Game) -> Bool {

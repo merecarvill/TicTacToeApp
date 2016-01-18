@@ -9,20 +9,24 @@ public class GamePrompt {
   }
 
   public func updateFor(game: Game) {
-    if game.playerWonLastTurn(game.getInactivePlayer()) {
+    if game.playerWon(game.getInactivePlayer()) {
       prompt.text = playerWinPrompt(game.getInactivePlayer())
     } else if game.isADraw() {
-      prompt.text = "Players tied in a draw."
+      prompt.text = playersTiedPrompt()
     } else {
       prompt.text = playerMovePrompt(game.getCurrentPlayer())
     }
   }
 
   private func playerMovePrompt(playerMark: PlayerMark) -> String {
-    return "It's player " + playerMark.rawValue + "'s turn:"
+    return "It's player \(playerMark.rawValue)'s turn:"
+  }
+
+  private func playersTiedPrompt() -> String {
+    return "Players tied in a draw."
   }
 
   private func playerWinPrompt(playerMark: PlayerMark) -> String {
-    return "Player " + playerMark.rawValue + " won!"
+    return "Player \(playerMark.rawValue) won!"
   }
 }
