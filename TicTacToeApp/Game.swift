@@ -30,6 +30,10 @@ public class Game {
     return board.isFull() && !board.hasWinningLine()
   }
 
+  public func isOver() -> Bool {
+    return isADraw() || playerWon(currentPlayer) || playerWon(otherPlayer())
+  }
+
   public func getBoardMarks() -> [PlayerMark?] {
     return (0..<board.numberOfSpaces()).map{ board.readSpace($0) }
   }

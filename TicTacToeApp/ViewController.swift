@@ -28,18 +28,14 @@ public class ViewController: UIViewController {
     gamePrompt?.updateFor(gameState)
     resetButton.enabled = true
 
-    if gameIsOver(gameState) {
+    if gameState.isOver() {
       gameBoard?.disableInput()
-    } else if isComputersTurn(gameState) {
+    } else if isComputerTurn(gameState) {
       makeMove(getCorrespondingButton(ComputerPlayer().makeMove(gameState))!)
     }
   }
 
-  private func gameIsOver(game: Game) -> Bool {
-    return gameState.playerWon(game.getInactivePlayer()) || game.isADraw()
-  }
-
-  private func isComputersTurn(game: Game) -> Bool {
+  private func isComputerTurn(game: Game) -> Bool {
     return currentMode == GameMode.HumanVsComputer && gameState.getCurrentPlayer() == PlayerMark.O
   }
 

@@ -54,6 +54,18 @@ class GameSpec: QuickSpec {
         expect(game.isADraw()).to(beTrue())
       }
 
+      it("reports if game is over") {
+        let drawGame = Game()
+        let wonGame = Game()
+
+        makeMoves(drawGame, moves: [0, 1, 3, 4, 7, 6, 2, 5, 8])
+        makeMoves(wonGame, moves: [0, 1, 3, 4, 6])
+
+        expect(Game().isOver()).to(beFalse())
+        expect(drawGame.isOver()).to(beTrue())
+        expect(wonGame.isOver()).to(beTrue())
+      }
+
       it("reports the marks on the board") {
         let game = Game()
         makeMoves(game, moves: [0, 1, 3, 4, 6])

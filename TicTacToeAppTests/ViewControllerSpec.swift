@@ -26,7 +26,7 @@ class ViewControllerSpec: QuickSpec {
       }
     }
     
-    func makeMovesInSequence(controller: ViewController, buttonSequence: [Int]) {
+    func makeMoves(controller: ViewController, buttonSequence: [Int]) {
       for buttonIndex in buttonSequence {
           controller.makeMove(controller.boardButtons[buttonIndex])
       }
@@ -49,23 +49,7 @@ class ViewControllerSpec: QuickSpec {
 
     describe("ViewController") {
 
-      it("disables button after making a move") {
-        let button = controller.boardButtons[0]
-
-        controller.makeMove(button)
-
-        expect(button.enabled).to(beFalse())
-      }
-
-      it("changes button title after making a move") {
-        let button = controller.boardButtons[0]
-
-        controller.makeMove(button)
-
-        expect(button.currentTitle).notTo(beNil())
-      }
-
-      it("marks the first marked button with the first player's mark") {
+      it("marks the first pressed button with the first player's mark") {
         let firstMoveButton = controller.boardButtons[0]
 
         controller.makeMove(firstMoveButton)
@@ -73,19 +57,19 @@ class ViewControllerSpec: QuickSpec {
         expect(firstMoveButton.currentTitle).to(equal(firstPlayerMark))
       }
 
-      it("marks the second marked button with the second player's mark") {
+      it("marks the second pressed button with the second player's mark") {
         let secondMoveButton = controller.boardButtons[1]
 
-        makeMovesInSequence(controller, buttonSequence: [0, 1])
+        makeMoves(controller, buttonSequence: [0, 1])
 
         expect(secondMoveButton.currentTitle).to(equal(secondPlayerMark))
       }
 
-      it("alternates between first and second player mark in subsequent turns") {
+      it("alternates between first and second player mark for subsequent button presses") {
         let thirdMoveButton = controller.boardButtons[2]
         let fourthMoveButton = controller.boardButtons[3]
 
-        makeMovesInSequence(controller, buttonSequence: [0, 1, 2, 3])
+        makeMoves(controller, buttonSequence: [0, 1, 2, 3])
 
         expect(thirdMoveButton.currentTitle).to(equal(firstPlayerMark))
         expect(fourthMoveButton.currentTitle).to(equal(secondPlayerMark))
@@ -97,7 +81,7 @@ class ViewControllerSpec: QuickSpec {
       }
 
       it("enables reset button when one or more moves have been made") {
-        makeMovesInSequence(controller, buttonSequence: [0])
+        makeMoves(controller, buttonSequence: [0])
 
         expect(resetButton.enabled).to(beTrue())
       }
@@ -111,42 +95,42 @@ class ViewControllerSpec: QuickSpec {
       }
 
       it("removes board button titles when the game is reset") {
-        controller.boardButtons[0].setTitle("foo", forState: UIControlState.Normal)
-        controller.boardButtons[1].setTitle("bar", forState: UIControlState.Normal)
+        makeMoves(controller, buttonSequence: [0, 1, 2, 3, 4, 5, 6, 7, 8])
 
         controller.resetGame()
 
-        expect(controller.boardButtons[0].currentTitle).to(beNil())
-        expect(controller.boardButtons[1].currentTitle).to(beNil())
+        expect(controller.boardButtons).to(allPass{ $0!.currentTitle == nil })
+
       }
 
-      it("re-enables pressed board buttons when the game is reset") {
-        let pressedButton1 = controller.boardButtons[0]
-        let pressedButton2 = controller.boardButtons[1]
-        controller.makeMove(pressedButton1)
-        controller.makeMove(pressedButton2)
+      it("re-enables board buttons when the game is reset") {
+        makeMoves(controller, buttonSequence: [0, 1, 2, 3, 4, 5, 6, 7, 8])
 
         controller.resetGame()
 
-        expect(pressedButton1.enabled).to(beTrue())
-        expect(pressedButton2.enabled).to(beTrue())
+        expect(controller.boardButtons).to(allPass{ $0!.enabled })
       }
 
       it("the first player goes first again after the game is reset") {
-        let button = controller.boardButtons[0]
-        controller.makeMove(button)
-        let initialMark = button.currentTitle
+        makeMoves(controller, buttonSequence: [0])
+        let initialMark = controller.boardButtons[0].currentTitle
 
         controller.resetGame()
-        controller.makeMove(button)
+        makeMoves(controller, buttonSequence: [0])
 
         expect(initialMark).to(equal(firstPlayerMark))
-        expect(button.currentTitle).to(equal(initialMark))
+        expect(controller.boardButtons[0].currentTitle).to(equal(initialMark))
       }
 
-      it("disables all buttons when the game is over") {        
-        makeMovesInSequence(controller, buttonSequence: [0, 1, 3, 4, 6])
+      it("disables all board buttons when the game is won") {
+        makeMoves(controller, buttonSequence: [0, 1, 3, 4, 6])
     
+        expect(controller.boardButtons).to(allPass{ $0!.enabled == false })
+      }
+
+      it("disables all board buttons when the game ends in a draw") {
+        makeMoves(controller, buttonSequence: [0, 1, 3, 4, 7, 6, 2, 5, 8])
+
         expect(controller.boardButtons).to(allPass{ $0!.enabled == false })
       }
 
@@ -161,7 +145,7 @@ class ViewControllerSpec: QuickSpec {
       }
 
       it("informs player X that it's their turn after game restart") {
-        makeMovesInSequence(controller, buttonSequence: [0, 1, 3, 4, 6])
+        makeMoves(controller, buttonSequence: [0, 1, 3, 4, 6])
 
         controller.resetGame()
 
@@ -169,20 +153,20 @@ class ViewControllerSpec: QuickSpec {
       }
 
       it("informs winning player X that they won") {
-        makeMovesInSequence(controller, buttonSequence: [0, 1, 3, 4, 6])
+        makeMoves(controller, buttonSequence: [0, 1, 3, 4, 6])
 
         expect(controller.prompt.text).to(equal("Player X won!"))
       }
 
       it("informs winning player O that they won") {
-        makeMovesInSequence(controller, buttonSequence: [2, 0, 1, 3, 4, 6])
+        makeMoves(controller, buttonSequence: [2, 0, 1, 3, 4, 6])
 
 
         expect(controller.prompt.text).to(equal("Player O won!"))
       }
 
       it("informs players of a draw") {
-        makeMovesInSequence(controller, buttonSequence: [0, 1, 3, 4, 7, 6, 2, 5, 8])
+        makeMoves(controller, buttonSequence: [0, 1, 3, 4, 7, 6, 2, 5, 8])
 
         expect(controller.prompt.text).to(equal("Players tied in a draw."))
       }
