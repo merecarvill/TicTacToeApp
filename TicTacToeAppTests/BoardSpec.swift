@@ -17,7 +17,7 @@ class BoardSpec: QuickSpec {
       it("records a player's mark") {
         var board = Board()
 
-        board = board.markSpace(0, mark: PlayerMark.X)
+        board = board.markSpace(0, mark: .X)
 
         expect(board.readSpace(0)).to(equal(PlayerMark.X))
       }
@@ -29,13 +29,13 @@ class BoardSpec: QuickSpec {
       }
 
       it("has a winning line when a line is all the same player's mark") {
-        let board = Board(markedSpaces: [0 : PlayerMark.X, 1 : PlayerMark.X, 2 : PlayerMark.X])
+        let board = Board(markedSpaces: [0 : .X, 1 : .X, 2 : .X])
 
         expect(board.hasWinningLine()).to(beTrue())
       }
 
       it("there are open spaces in a new game") {
-        expect(Board().allSpacesMarked()).to(beFalse())
+        expect(Board().isFull()).to(beFalse())
       }
 
       it("can tell you the number of total spaces") {
@@ -43,15 +43,13 @@ class BoardSpec: QuickSpec {
       }
 
       it("reports whether all spaces have been marked") {
-        let markedSpaces = [
-          0 : PlayerMark.X, 1 : PlayerMark.O, 2 : PlayerMark.X,
-          3 : PlayerMark.X, 4 : PlayerMark.O, 5 : PlayerMark.X,
-          6 : PlayerMark.O, 7 : PlayerMark.X, 8 : PlayerMark.O
-        ]
-        
-        let board = Board(markedSpaces: markedSpaces)
+        let board = Board(markedSpaces: [
+          0 : .X, 1 : .O, 2 : .X,
+          3 : .X, 4 : .O, 5 : .X,
+          6 : .O, 7 : .X, 8 : .O
+          ])
 
-        expect(board.allSpacesMarked()).to(beTrue())
+        expect(board.isFull()).to(beTrue())
       }
     }
   }

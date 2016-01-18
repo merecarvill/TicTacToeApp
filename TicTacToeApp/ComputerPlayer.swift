@@ -3,8 +3,7 @@ import Foundation
 
 public class ComputerPlayer {
 
-  public init() {
-  }
+  public init() {}
 
   public func makeMove(gameState: Game) -> Int {
     var move: Int?
@@ -52,9 +51,9 @@ public class ComputerPlayer {
   }
 
   private func computerMoveRequest(gameState: Game, baseUrl: String) -> NSURLRequest {
-    let currentPlayerParam = "current_player=" + markToString(gameState.getCurrentPlayer())
-    let boardParam = "board=" + boardToString(gameState.getBoardMarks())
-    let url = baseUrl + "?" + currentPlayerParam + "&" + boardParam
+    let currentPlayer = markToString(gameState.getCurrentPlayer())
+    let boardMarks = boardToString(gameState.getBoardMarks())
+    let url = "\(baseUrl)?current_player=\(currentPlayer)&board=\(boardMarks)"
 
     return NSURLRequest(URL: NSURL(string: url)!)
   }
@@ -65,9 +64,9 @@ public class ComputerPlayer {
 
   private func markToString(mark: PlayerMark) -> String {
     switch (mark) {
-    case PlayerMark.NONE: return "_"
-    case PlayerMark.X: return "X"
-    case PlayerMark.O: return "O"
+    case .NONE: return "_"
+    case .X: return "X"
+    case .O: return "O"
     }
   }
 }

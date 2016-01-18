@@ -6,7 +6,7 @@ import TicTacToeApp
 class GameSpec: QuickSpec {
   override func spec() {
 
-    func makeSequenceOfMoves(game: Game, moves: [Int]) {
+    func makeMoves(game: Game, moves: [Int]) {
       for move in moves {
         game.makeMove(move)
       }
@@ -29,43 +29,55 @@ class GameSpec: QuickSpec {
       }
 
       it("has no winning players when just starting a game") {
-        expect(Game().playerWonLastTurn(PlayerMark.X)).to(beFalse())
-        expect(Game().playerWonLastTurn(PlayerMark.O)).to(beFalse())
+        expect(Game().playerWon(.X)).to(beFalse())
+        expect(Game().playerWon(.O)).to(beFalse())
       }
 
       it("reports if player X won") {
         let game = Game()
-        makeSequenceOfMoves(game, moves: [0, 1, 3, 4, 6])
+        makeMoves(game, moves: [0, 1, 3, 4, 6])
 
-        expect(game.playerWonLastTurn(PlayerMark.X)).to(beTrue())
+        expect(game.playerWon(.X)).to(beTrue())
       }
 
       it("reports if player O won") {
         let game = Game()
-        makeSequenceOfMoves(game, moves: [0, 1, 2, 4, 3, 7])
+        makeMoves(game, moves: [0, 1, 2, 4, 3, 7])
 
-        expect(game.playerWonLastTurn(PlayerMark.O)).to(beTrue())
+        expect(game.playerWon(.O)).to(beTrue())
       }
 
       it("reports if game is a draw") {
         let game = Game()
-        makeSequenceOfMoves(game, moves: [0, 1, 3, 4, 7, 6, 2, 5, 8])
+        makeMoves(game, moves: [0, 1, 3, 4, 7, 6, 2, 5, 8])
 
         expect(game.isADraw()).to(beTrue())
       }
 
+      it("reports if game is over") {
+        let drawGame = Game()
+        let wonGame = Game()
+
+        makeMoves(drawGame, moves: [0, 1, 3, 4, 7, 6, 2, 5, 8])
+        makeMoves(wonGame, moves: [0, 1, 3, 4, 6])
+
+        expect(Game().isOver()).to(beFalse())
+        expect(drawGame.isOver()).to(beTrue())
+        expect(wonGame.isOver()).to(beTrue())
+      }
+
       it("reports the marks on the board") {
         let game = Game()
-        makeSequenceOfMoves(game, moves: [0, 1, 3, 4, 6])
+        makeMoves(game, moves: [0, 1, 3, 4, 6])
 
         let expectedMarks: [PlayerMark?] = [
-          PlayerMark.X, PlayerMark.O, PlayerMark.NONE,
-          PlayerMark.X, PlayerMark.O, PlayerMark.NONE,
-          PlayerMark.X, PlayerMark.NONE, PlayerMark.NONE
+          .X, .O, .NONE,
+          .X, .O, .NONE,
+          .X, .NONE, .NONE
         ]
 
-        for spaceId in (0..<expectedMarks.count) {
-          expect(game.getBoardMarks()[spaceId]).to(equal(expectedMarks[spaceId]))
+        for space in (0..<expectedMarks.count) {
+          expect(game.getBoardMarks()[space]).to(equal(expectedMarks[space]))
         }
       }
     }

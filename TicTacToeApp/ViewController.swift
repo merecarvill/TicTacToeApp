@@ -22,34 +22,25 @@ public class ViewController: UIViewController {
   }
 
   @IBAction public func makeMove(button: UIButton) {
-    gameBoard?.markButton(gameState.getCurrentPlayer(), spaceId: button.tag)
+    gameBoard?.markButton(gameState.getCurrentPlayer(), space: button.tag)
 
     gameState.makeMove(button.tag)
     gamePrompt?.updateFor(gameState)
     resetButton.enabled = true
 
-    if gameIsOver(gameState) {
+    if gameState.isOver() {
       gameBoard?.disableInput()
-    } else if isComputersTurn(gameState) {
+    } else if isComputerTurn(gameState) {
       makeMove(getCorrespondingButton(ComputerPlayer().makeMove(gameState))!)
     }
   }
 
-  private func gameIsOver(game: Game) -> Bool {
-    return gameState.playerWonLastTurn(game.getInactivePlayer()) || game.isADraw()
-  }
-
-  private func isComputersTurn(game: Game) -> Bool {
+  private func isComputerTurn(game: Game) -> Bool {
     return currentMode == GameMode.HumanVsComputer && gameState.getCurrentPlayer() == PlayerMark.O
   }
 
-  private func getCorrespondingButton(spaceId: Int) -> UIButton? {
-    for button in boardButtons {
-      if button.tag == spaceId {
-        return button
-      }
-    }
-    return nil
+  private func getCorrespondingButton(space: Int) -> UIButton? {
+    return boardButtons.filter{ $0.tag == space }.first
   }
 
   @IBAction public func resetGameWithConfirmation() {
