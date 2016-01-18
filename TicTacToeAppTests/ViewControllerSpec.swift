@@ -14,6 +14,8 @@ class ViewControllerSpec: QuickSpec {
     var controller: ViewController!
     var prompt: UILabel!
     var resetButton: UIButton!
+    let firstPlayerMark = PlayerMark.X.rawValue
+    let secondPlayerMark = PlayerMark.O.rawValue
     
     func tagButtonsInSequence(buttons: [UIButton]) {
       var tag = 0
@@ -63,18 +65,31 @@ class ViewControllerSpec: QuickSpec {
         expect(button.currentTitle).notTo(beNil())
       }
 
-      it("changes button title to alternating player marks after each move") {
+      it("marks the first marked button with the first player's mark") {
         let firstMoveButton = controller.boardButtons[0]
-        let secondMoveButton = controller.boardButtons[1]
-        let thirdMoveButton = controller.boardButtons[2]
 
         controller.makeMove(firstMoveButton)
-        controller.makeMove(secondMoveButton)
-        controller.makeMove(thirdMoveButton)
 
-        expect(firstMoveButton.currentTitle).to(equal("X"))
-        expect(secondMoveButton.currentTitle).to(equal("O"))
-        expect(thirdMoveButton.currentTitle).to(equal("X"))
+        expect(firstMoveButton.currentTitle).to(equal(firstPlayerMark))
+      }
+
+      it("marks the second marked button with the second player's mark") {
+        let secondMoveButton = controller.boardButtons[1]
+
+        makeMovesInSequence(controller, buttonSequence: [0, 1])
+
+        expect(secondMoveButton.currentTitle).to(equal(secondPlayerMark))
+      }
+
+      it("alternates between marking buttons with first and second player mark in subsequent turns") {
+        let thirdMoveButton = controller.boardButtons[2]
+        let fourthMoveButton = controller.boardButtons[3]
+
+        makeMovesInSequence(controller, buttonSequence: [0, 1, 2, 3])
+
+        expect(thirdMoveButton.currentTitle).to(equal(firstPlayerMark))
+        expect(fourthMoveButton.currentTitle).to(equal(secondPlayerMark))
+
       }
 
       it("disables reset button when no moves have been made") {
@@ -117,7 +132,7 @@ class ViewControllerSpec: QuickSpec {
         expect(pressedButton2.enabled).to(beTrue())
       }
 
-      it("the first player mark is X again after the game is reset") {
+      it("the first player goes first again after the game is reset") {
         let button = controller.boardButtons[0]
         controller.makeMove(button)
         let initialMark = button.currentTitle
@@ -125,7 +140,7 @@ class ViewControllerSpec: QuickSpec {
         controller.resetGame()
         controller.makeMove(button)
 
-        expect(initialMark).to(equal("X"))
+        expect(initialMark).to(equal(firstPlayerMark))
         expect(button.currentTitle).to(equal(initialMark))
       }
 
