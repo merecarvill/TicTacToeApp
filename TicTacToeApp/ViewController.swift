@@ -43,13 +43,8 @@ public class ViewController: UIViewController {
     return currentMode == GameMode.HumanVsComputer && gameState.getCurrentPlayer() == PlayerMark.O
   }
 
-  private func getCorrespondingButton(spaceId: Int) -> UIButton? {
-    for button in boardButtons {
-      if button.tag == spaceId {
-        return button
-      }
-    }
-    return nil
+  private func getCorrespondingButton(space: Int) -> UIButton? {
+    return boardButtons.filter{ $0.tag == space }.first
   }
 
   @IBAction public func resetGameWithConfirmation() {

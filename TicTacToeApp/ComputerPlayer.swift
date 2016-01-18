@@ -3,8 +3,7 @@ import Foundation
 
 public class ComputerPlayer {
 
-  public init() {
-  }
+  public init() {}
 
   public func makeMove(gameState: Game) -> Int {
     var move: Int?
