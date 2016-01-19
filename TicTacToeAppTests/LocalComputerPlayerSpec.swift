@@ -5,7 +5,7 @@ import TicTacToeApp
 class LocalComputerPlayerSpec: QuickSpec {
     override func spec() {
 
-        func makeSequenceOfMoves(game: Game, moves: [Int]) {
+        func makeMoves(game: Game, moves: [Int]) {
             for move in moves {
                 game.makeMove(move)
             }
@@ -20,9 +20,9 @@ class LocalComputerPlayerSpec: QuickSpec {
 
             it("only selects moves for unmarked spaces") {
                 let game1 = Game()
-                makeSequenceOfMoves(game1, moves: [0, 1, 2, 3, 4, 5, 6, 7])
+                makeMoves(game1, moves: [0, 1, 2, 3, 4, 5, 6, 7])
                 let game2 = Game()
-                makeSequenceOfMoves(game2, moves: [1, 2, 3, 4, 5, 6, 7, 8])
+                makeMoves(game2, moves: [1, 2, 3, 4, 5, 6, 7, 8])
 
                 expect(LocalComputerPlayer().makeMove(game1)).to(equal(8))
                 expect(LocalComputerPlayer().makeMove(game2)).to(equal(0))
