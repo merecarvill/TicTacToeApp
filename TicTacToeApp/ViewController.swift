@@ -30,7 +30,7 @@ public class ViewController: UIViewController {
         if gameState.isOver() {
             gameBoard?.disableInput()
         } else if isComputerTurn(gameState) {
-            makeMove(getCorrespondingButton(ComputerPlayer().makeMove(gameState))!)
+            makeMove(getCorrespondingButton(LocalComputerPlayer().makeMove(gameState))!)
         }
     }
 

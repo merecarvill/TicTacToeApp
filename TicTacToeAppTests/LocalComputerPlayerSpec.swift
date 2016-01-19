@@ -2,7 +2,7 @@ import Quick
 import Nimble
 import TicTacToeApp
 
-class ComputerPlayerSpec: QuickSpec {
+class LocalComputerPlayerSpec: QuickSpec {
     override func spec() {
 
         func makeSequenceOfMoves(game: Game, moves: [Int]) {
@@ -11,11 +11,11 @@ class ComputerPlayerSpec: QuickSpec {
             }
         }
 
-        describe("ComputerPlayer") {
+        describe("LocalComputerPlayer") {
 
             it("chooses a move within the bounds of the board") {
-                expect(ComputerPlayer().makeMove(Game())) >= 0
-                expect(ComputerPlayer().makeMove(Game())) < 9
+                expect(LocalComputerPlayer().makeMove(Game())) >= 0
+                expect(LocalComputerPlayer().makeMove(Game())) < 9
             }
 
             it("only selects moves for unmarked spaces") {
@@ -24,8 +24,8 @@ class ComputerPlayerSpec: QuickSpec {
                 let game2 = Game()
                 makeSequenceOfMoves(game2, moves: [1, 2, 3, 4, 5, 6, 7, 8])
 
-                expect(ComputerPlayer().makeMove(game1)).to(equal(8))
-                expect(ComputerPlayer().makeMove(game2)).to(equal(0))
+                expect(LocalComputerPlayer().makeMove(game1)).to(equal(8))
+                expect(LocalComputerPlayer().makeMove(game2)).to(equal(0))
             }
         }
     }
