@@ -1,5 +1,3 @@
-import Foundation
-
 public protocol HttpClient {
     func makeRequest(
         url: String,
