@@ -4,6 +4,24 @@ import TicTacToeApp
 
 class ViewControllerSpec: QuickSpec {
 
+    class MockHttpClient: HttpClient {
+        internal var lastRequestUrl: String?
+        internal var mockResponseBody: String? = ""
+
+        internal func makeRequest(
+            url: String,
+            successHandler: (String) -> Void,
+            failureHandler: () -> Void
+            ) {
+                lastRequestUrl = url
+                if mockResponseBody != nil {
+                    successHandler(mockResponseBody!)
+                } else {
+                    failureHandler()
+                }
+        }
+    }
+
     override func setUp() {
         continueAfterFailure = false
     }
@@ -184,12 +202,14 @@ class ViewControllerSpec: QuickSpec {
             }
             
             it("makes the computer move automatically after player move") {
+                let mockClient = MockHttpClient()
+                mockClient.mockResponseBody = "1"
+                controller.computerPlayer?.setHttpClient(mockClient)
                 controller.currentMode = GameMode.HumanVsComputer
                 
                 controller.makeMove(controller.boardButtons[0])
-                let numberOfMarkedSpaces = controller.boardButtons.filter{ !$0.enabled }.count
-                
-                expect(numberOfMarkedSpaces).to(equal(2))
+
+                expect(controller.boardButtons[1].currentTitle).toEventuallyNot(beNil())
             }
         }
     }

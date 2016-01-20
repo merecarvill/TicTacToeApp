@@ -2,23 +2,25 @@ import Foundation
 
 public class NetworkComputerPlayer {
 
-    let httpClient: HttpClient
+    var httpClient: HttpClient?
     let onSuccess: (String) -> Void
     let onFailure: () -> Void
     let serviceUrl = "http://107.170.25.194:5000/"
 
     public init(
-        httpClient: HttpClient,
         onSuccess: (String) -> Void,
         onFailure: () -> Void
     ) {
-        self.httpClient = httpClient
         self.onSuccess = onSuccess
         self.onFailure = onFailure
     }
 
+    public func setHttpClient(httpClient: HttpClient) {
+        self.httpClient = httpClient
+    }
+
     public func makeMove(gameState: Game) {
-        httpClient.makeRequest(
+        httpClient?.makeRequest(
             assembleUrl(gameState),
             successHandler: onSuccess,
             failureHandler: onFailure

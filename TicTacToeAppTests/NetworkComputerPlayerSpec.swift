@@ -36,10 +36,10 @@ class NetworkComputerPlayerSpec: QuickSpec {
                 let serviceUrl = "http://107.170.25.194:5000/"
                 let httpClient = MockHttpClient()
                 let computer = NetworkComputerPlayer(
-                    httpClient: httpClient,
                     onSuccess: { _ in },
                     onFailure: { _ in }
                 )
+                computer.setHttpClient(httpClient)
 
                 computer.makeMove(Game())
 
@@ -49,10 +49,10 @@ class NetworkComputerPlayerSpec: QuickSpec {
             it("makes a request to an http client with current player as a parameter") {
                 let httpClient = MockHttpClient()
                 let computer = NetworkComputerPlayer(
-                    httpClient: httpClient,
                     onSuccess: { _ in },
                     onFailure: { _ in }
                 )
+                computer.setHttpClient(httpClient)
 
                 computer.makeMove(Game())
 
@@ -68,10 +68,10 @@ class NetworkComputerPlayerSpec: QuickSpec {
                 let boardString = "board=\(x),\(o),\(x),\(o),\(x),\(o),\(x),\(o),\(blank)"
                 let httpClient = MockHttpClient()
                 let computer = NetworkComputerPlayer(
-                    httpClient: httpClient,
                     onSuccess: { _ in },
                     onFailure: { _ in }
                 )
+                computer.setHttpClient(httpClient)
 
                 computer.makeMove(game)
 
@@ -83,10 +83,10 @@ class NetworkComputerPlayerSpec: QuickSpec {
                 httpClient.mockResponseBody = "body"
                 var successHandlerTarget: String?
                 let computer = NetworkComputerPlayer(
-                    httpClient: httpClient,
                     onSuccess: { responseData in successHandlerTarget = responseData },
                     onFailure: { _ in }
                 )
+                computer.setHttpClient(httpClient)
 
                 computer.makeMove(Game())
 
@@ -98,10 +98,10 @@ class NetworkComputerPlayerSpec: QuickSpec {
                 httpClient.mockResponseBody = nil
                 var failureHandlerTarget = "has not been called"
                 let computer = NetworkComputerPlayer(
-                    httpClient: httpClient,
                     onSuccess: { _ in },
                     onFailure: { failureHandlerTarget = "was called" }
                 )
+                computer.setHttpClient(httpClient)
 
                 computer.makeMove(Game())
 
