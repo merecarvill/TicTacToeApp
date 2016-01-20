@@ -5,7 +5,7 @@ import TicTacToeApp
 class GamePromptSpec: QuickSpec {
     override func spec() {
 
-        func makeMovesInSequence(game: Game, moveSequence: [Int]) {
+        func makeMoves(game: Game, moveSequence: [Int]) {
             for spaceId in moveSequence {
                 game.makeMove(spaceId)
             }
@@ -33,7 +33,7 @@ class GamePromptSpec: QuickSpec {
             it("informs winning player X that they won") {
                 let prompt = UILabel()
                 let gameState = Game()
-                makeMovesInSequence(gameState, moveSequence: [0, 1, 3, 4, 6])
+                makeMoves(gameState, moveSequence: [0, 1, 3, 4, 6])
 
                 GamePrompt(prompt: prompt).updateFor(gameState)
 
@@ -43,7 +43,7 @@ class GamePromptSpec: QuickSpec {
             it("informs winning player O that they won") {
                 let prompt = UILabel()
                 let gameState = Game()
-                makeMovesInSequence(gameState, moveSequence: [2, 0, 1, 3, 4, 6])
+                makeMoves(gameState, moveSequence: [2, 0, 1, 3, 4, 6])
 
                 GamePrompt(prompt: prompt).updateFor(gameState)
 
@@ -53,7 +53,7 @@ class GamePromptSpec: QuickSpec {
             it("informs players of a draw") {
                 let prompt = UILabel()
                 let gameState = Game()
-                makeMovesInSequence(gameState, moveSequence: [0, 1, 3, 4, 7, 6, 2, 5, 8])
+                makeMoves(gameState, moveSequence: [0, 1, 3, 4, 7, 6, 2, 5, 8])
                 
                 GamePrompt(prompt: prompt).updateFor(gameState)
                 
