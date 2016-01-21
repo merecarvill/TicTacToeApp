@@ -26,8 +26,6 @@
 		06DB7E861C3DB5FB0084C1D9 /* GamePromptSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DB7E851C3DB5FB0084C1D9 /* GamePromptSpec.swift */; };
 		06DB7E881C3DBAF80084C1D9 /* PlayerMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DB7E871C3DBAF80084C1D9 /* PlayerMark.swift */; };
 		06E34AEA1C3C299C00CD529B /* ViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E34AE91C3C299C00CD529B /* ViewControllerSpec.swift */; };
-		06F075EA1C4EF89F00E6BE41 /* LocalComputerPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F075E91C4EF89F00E6BE41 /* LocalComputerPlayer.swift */; };
-		06F075EC1C4EF8AB00E6BE41 /* LocalComputerPlayerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F075EB1C4EF8AB00E6BE41 /* LocalComputerPlayerSpec.swift */; };
 		06F97B5F1C3F1E2500B54625 /* GameMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F97B5E1C3F1E2500B54625 /* GameMode.swift */; };
 		06FE35271C4EDBA200D4F54E /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06FE35261C4EDBA200D4F54E /* HttpClient.swift */; };
 /* End PBXBuildFile section */
@@ -65,8 +63,6 @@
 		06DB7E851C3DB5FB0084C1D9 /* GamePromptSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePromptSpec.swift; sourceTree = "<group>"; };
 		06DB7E871C3DBAF80084C1D9 /* PlayerMark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerMark.swift; sourceTree = "<group>"; };
 		06E34AE91C3C299C00CD529B /* ViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerSpec.swift; sourceTree = "<group>"; };
-		06F075E91C4EF89F00E6BE41 /* LocalComputerPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalComputerPlayer.swift; sourceTree = "<group>"; };
-		06F075EB1C4EF8AB00E6BE41 /* LocalComputerPlayerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalComputerPlayerSpec.swift; sourceTree = "<group>"; };
 		06F97B5E1C3F1E2500B54625 /* GameMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameMode.swift; sourceTree = "<group>"; };
 		06FE35261C4EDBA200D4F54E /* HttpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
 		2AECFB298BA2C6F0776B31E5 /* Pods-TicTacToeAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TicTacToeAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TicTacToeAppTests/Pods-TicTacToeAppTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -130,7 +126,6 @@
 				06F97B5E1C3F1E2500B54625 /* GameMode.swift */,
 				06A8A84F1C45A0140086A917 /* BoardButtons.swift */,
 				06FE35261C4EDBA200D4F54E /* HttpClient.swift */,
-				06F075E91C4EF89F00E6BE41 /* LocalComputerPlayer.swift */,
 				062D24CF1C4FE5AF00B8C795 /* AsyncHttpClient.swift */,
 			);
 			path = TicTacToeApp;
@@ -146,7 +141,6 @@
 				06DB7E851C3DB5FB0084C1D9 /* GamePromptSpec.swift */,
 				065759AC1C3F0A9A00A0C2FA /* NetworkComputerPlayerSpec.swift */,
 				06A8A8511C45A0200086A917 /* BoardButtonsSpec.swift */,
-				06F075EB1C4EF8AB00E6BE41 /* LocalComputerPlayerSpec.swift */,
 			);
 			path = TicTacToeAppTests;
 			sourceTree = "<group>";
@@ -329,7 +323,6 @@
 				06DB7E881C3DBAF80084C1D9 /* PlayerMark.swift in Sources */,
 				0609696E1C3B116F004F22FE /* Board.swift in Sources */,
 				060969741C3B2872004F22FE /* Game.swift in Sources */,
-				06F075EA1C4EF89F00E6BE41 /* LocalComputerPlayer.swift in Sources */,
 				06A8A8501C45A0140086A917 /* BoardButtons.swift in Sources */,
 				065759AB1C3F0A8C00A0C2FA /* NetworkComputerPlayer.swift in Sources */,
 			);
@@ -345,7 +338,6 @@
 				065759AD1C3F0A9A00A0C2FA /* NetworkComputerPlayerSpec.swift in Sources */,
 				06DB7E861C3DB5FB0084C1D9 /* GamePromptSpec.swift in Sources */,
 				06E34AEA1C3C299C00CD529B /* ViewControllerSpec.swift in Sources */,
-				06F075EC1C4EF8AB00E6BE41 /* LocalComputerPlayerSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
