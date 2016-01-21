@@ -11,9 +11,11 @@ public class ViewController: UIViewController {
     private var gameBoard: BoardButtons?
     private var gamePrompt: GamePrompt?
     public var currentMode = GameMode.HumanVsHuman
+    public var computerPlayer: NetworkComputerPlayer?
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        computerPlayer = createNetworkComputerPlayer()
         gameBoard = BoardButtons(buttons: boardButtons)
         gamePrompt = GamePrompt(prompt: prompt)
         gamePrompt?.updateFor(gameState)
@@ -30,7 +32,7 @@ public class ViewController: UIViewController {
         if gameState.isOver() {
             gameBoard?.disableInput()
         } else if isComputerTurn(gameState) {
-            makeMove(getCorrespondingButton(ComputerPlayer().makeMove(gameState))!)
+            computerPlayer!.makeMove(gameState)
         }
     }
 
@@ -40,6 +42,16 @@ public class ViewController: UIViewController {
 
     private func getCorrespondingButton(space: Int) -> UIButton? {
         return boardButtons.filter{ $0.tag == space }.first
+    }
+
+    private func createNetworkComputerPlayer() -> NetworkComputerPlayer {
+        let computer = NetworkComputerPlayer(
+            onSuccess: { move in
+                self.makeMove(self.getCorrespondingButton(Int(move)!)!)
+            },
+            onFailure: {  })
+        computer.setHttpClient(AsyncHttpClient())
+        return computer
     }
 
     @IBAction public func resetGameWithConfirmation() {
