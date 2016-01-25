@@ -5,7 +5,7 @@ public class NetworkComputerPlayer {
     var httpClient: HttpClient?
     let onSuccess: (String) -> Void
     let onFailure: () -> Void
-    let serviceUrl = "http://107.170.25.194:5000/"
+    let serviceUrl = "http://107.170.25.194:5000/api/best_move"
 
     public init(
         onSuccess: (String) -> Void,
