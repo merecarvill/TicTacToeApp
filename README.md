@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/scarvill91/TicTacToeApp.svg?branch=master)](https://travis-ci.org/scarvill91/TicTacToeApp)
+
 # Tic Tac Toe App
 
 An iOS tic tac toe app with the choice of human or computer opponent.
