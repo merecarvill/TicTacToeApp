@@ -4,6 +4,8 @@
 
 An iOS tic tac toe app with the choice of human or computer opponent.
 
+Client of a [minimax web API](https://github.com/nystromb/minimax-server) that utilizes my [java-httpserver](https://github.com/scarvill91/java-httpserver) project.
+
 ## Dependencies
 - Swift 2.1
 - Quick 0.8
