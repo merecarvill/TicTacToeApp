@@ -7,21 +7,28 @@ public class BoardButtons {
         self.buttons = buttons
     }
 
-    public func markButton(playerMark: PlayerMark, space: Int) {
-        let button = getButtonFor(space)
-        button?.setTitle(playerMark.rawValue, forState: UIControlState.Normal)
-        button?.enabled = false
-    }
-
-    public func clearMarks() {
-        for button in buttons {
-            button.setTitle(nil, forState: UIControlState.Normal)
-            button.enabled = true
+    public func updateFor(game: Game) {
+        markSpaces(game)
+        if game.isOver() {
+            disableInput()
         }
     }
 
     public func disableInput() {
         buttons.forEach{ $0.enabled = false }
+    }
+
+    private func markSpaces(game: Game) {
+        for (space, mark) in game.getBoardMarks().enumerate() {
+            let button = getButtonFor(space)
+            if mark != PlayerMark.NONE {
+                button?.setTitle(mark?.rawValue, forState: UIControlState.Normal)
+                button?.enabled = false
+            } else {
+                button?.setTitle(nil, forState: UIControlState.Normal)
+                button?.enabled = true
+            }
+        }
     }
 
     private func getButtonFor(space: Int) -> UIButton? {

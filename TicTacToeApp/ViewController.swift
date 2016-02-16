@@ -11,11 +11,11 @@ public class ViewController: UIViewController {
     private var gameBoard: BoardButtons?
     private var gamePrompt: GamePrompt?
     public var currentMode = GameMode.HumanVsHuman
-    public var computerPlayer: NetworkComputerPlayer?
+    public var computerPlayer: ComputerPlayer?
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        computerPlayer = createNetworkComputerPlayer()
+        computerPlayer = createComputerPlayer()
         gameBoard = BoardButtons(buttons: boardButtons)
         gamePrompt = GamePrompt(prompt: prompt)
         gamePrompt?.updateFor(gameState)
@@ -23,15 +23,14 @@ public class ViewController: UIViewController {
     }
 
     @IBAction public func makeMove(button: UIButton) {
-        gameBoard?.markButton(gameState.getCurrentPlayer(), space: button.tag)
-
         gameState.makeMove(button.tag)
+
+        gameBoard?.updateFor(gameState)
         gamePrompt?.updateFor(gameState)
         resetButton.enabled = true
 
-        if gameState.isOver() {
+        if isComputerTurn(gameState) {
             gameBoard?.disableInput()
-        } else if isComputerTurn(gameState) {
             computerPlayer!.makeMove(gameState)
         }
     }
@@ -44,8 +43,8 @@ public class ViewController: UIViewController {
         return boardButtons.filter{ $0.tag == space }.first
     }
 
-    private func createNetworkComputerPlayer() -> NetworkComputerPlayer {
-        let computer = NetworkComputerPlayer(
+    private func createComputerPlayer() -> ComputerPlayer {
+        let computer = ComputerPlayer(
             onSuccess: { move in
                 self.makeMove(self.getCorrespondingButton(Int(move)!)!)
             },
@@ -66,7 +65,7 @@ public class ViewController: UIViewController {
     public func resetGame() {
         gameState = Game()
         gamePrompt?.updateFor(gameState)
-        gameBoard?.clearMarks()
+        gameBoard?.updateFor(gameState)
         resetButton.enabled = false
     }
 

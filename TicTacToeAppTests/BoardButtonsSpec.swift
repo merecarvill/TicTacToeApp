@@ -28,44 +28,54 @@ class BoardButtonsSpec: QuickSpec {
                 return nil
             }
 
-            it("changes the title of the button corresponding to given space") {
-                let buttons = taggedButtons()
-                let boardButtons = BoardButtons(buttons: buttons)
-
-                boardButtons.markButton(.X, space: 0)
-
-                expect(getButtonFor(0, buttons: buttons)?.currentTitle).to(equal("X"))
+            func makeMoves(game: Game, moves: [Int]) {
+                for move in moves {
+                    game.makeMove(move)
+                }
             }
 
-            it("disables button once it is marked") {
+            it("marks buttons according to corresponding marks on game board") {
                 let buttons = taggedButtons()
                 let boardButtons = BoardButtons(buttons: buttons)
+                let game = Game()
 
-                boardButtons.markButton(.X, space: 0)
+                game.makeMove(0)
+                boardButtons.updateFor(game)
 
-                expect(getButtonFor(0, buttons: buttons)?.enabled).to(beFalse())
+                expect(buttons[0].currentTitle).to(equal(PlayerMark.X.rawValue))
+                expect(buttons[1..<buttons.count]).to(allPass({ $0?.currentTitle == nil }))
             }
 
-            it("can clear the buttons of marks") {
+            it("disables marked buttons") {
                 let buttons = taggedButtons()
                 let boardButtons = BoardButtons(buttons: buttons)
-                boardButtons.markButton(.X, space: 0)
-                boardButtons.markButton(.O, space: 1)
+                let game = Game()
 
-                boardButtons.clearMarks()
+                game.makeMove(0)
+                boardButtons.updateFor(game)
 
-                expect(buttons).to(allPass{ $0?.currentTitle == nil })
+                expect(buttons[0].enabled).to(beFalse())
+                expect(buttons[1..<buttons.count]).to(allPass({ $0?.enabled == true }))
             }
 
-            it("enables all buttons when they are cleared of marks") {
+            it("removes a button's mark if it is not marked on the game  board") {
                 let buttons = taggedButtons()
                 let boardButtons = BoardButtons(buttons: buttons)
-                boardButtons.markButton(.X, space: 0)
-                boardButtons.markButton(.O, space: 1)
-                
-                boardButtons.clearMarks()
-                
-                expect(buttons).to(allPass{ $0?.enabled == true })
+                buttons.forEach{ $0.setTitle("foo", forState: .Normal) }
+
+                boardButtons.updateFor(Game())
+
+                expect(buttons).to(allPass({ $0?.currentTitle == nil }))
+            }
+
+            it("enables unmarked buttons") {
+                let buttons = taggedButtons()
+                let boardButtons = BoardButtons(buttons: buttons)
+                buttons.forEach{ $0.enabled = false }
+
+                boardButtons.updateFor(Game())
+
+                expect(buttons).to(allPass({ $0?.enabled == true }))
             }
             
             it("can disable all buttons from being pressed") {
@@ -75,6 +85,17 @@ class BoardButtonsSpec: QuickSpec {
                 boardButtons.disableInput()
                 
                 expect(buttons).to(allPass{ $0?.enabled == false })
+            }
+
+            it("disables all buttons when game is over") {
+                let buttons = taggedButtons()
+                let boardButtons = BoardButtons(buttons: buttons)
+                let game = Game()
+                makeMoves(game, moves: [0, 3, 1, 4, 2])
+
+                boardButtons.updateFor(game)
+
+                expect(buttons).to(allPass({ $0?.enabled == false }))
             }
         }
     }
