@@ -13,7 +13,7 @@
 		062D24D01C4FE5AF00B8C795 /* AsyncHttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062D24CF1C4FE5AF00B8C795 /* AsyncHttpClient.swift */; };
 		0647B5791C31E1D800BAC183 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0647B5781C31E1D800BAC183 /* AppDelegate.swift */; };
 		0647B57B1C31E1D800BAC183 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0647B57A1C31E1D800BAC183 /* ViewController.swift */; };
-		0647B57E1C31E1D800BAC183 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0647B57C1C31E1D800BAC183 /* Main.storyboard */; };
+		0647B57E1C31E1D800BAC183 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0647B57C1C31E1D800BAC183 /* Main.storyboard */; settings = {ASSET_TAGS = (0, ); }; };
 		0647B5801C31E1D800BAC183 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0647B57F1C31E1D800BAC183 /* Assets.xcassets */; };
 		0647B5831C31E1D800BAC183 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0647B5811C31E1D800BAC183 /* LaunchScreen.storyboard */; };
 		065759AB1C3F0A8C00A0C2FA /* ComputerPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065759AA1C3F0A8C00A0C2FA /* ComputerPlayer.swift */; };
@@ -209,6 +209,9 @@
 		0647B56D1C31E1D700BAC183 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					0,
+				);
 				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = scarvill;

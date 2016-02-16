@@ -7,24 +7,31 @@ class ViewControllerSpec: QuickSpec {
     class MockHttpClient: HttpClient {
         internal var lastRequestUrl: String?
         internal var mockResponseBody: String? = ""
+
+        internal func makeRequest(
+            url: String,
+            successHandler: (String) -> Void,
+            failureHandler: () -> Void)
+        {
+            lastRequestUrl = url
+            if mockResponseBody != nil {
+                successHandler(mockResponseBody!)
+            } else {
+                failureHandler()
+            }
+        }
+    }
+
+    class NullHttpClient: HttpClient {
+        internal var lastRequestUrl: String?
+        internal var mockResponseBody: String? = ""
         internal var responseHandlers: ((String) -> Void, () -> Void)?
 
         internal func makeRequest(
             url: String,
             successHandler: (String) -> Void,
-            failureHandler: () -> Void
-            ) {
-                lastRequestUrl = url
-                responseHandlers = (successHandler, failureHandler)
-        }
-
-        internal func triggerRequestCompletion() {
-            if mockResponseBody != nil && responseHandlers != nil {
-                responseHandlers?.0(mockResponseBody!)
-            } else {
-                responseHandlers?.1()
-            }
-        }
+            failureHandler: () -> Void)
+        { }
     }
 
     override func setUp() {
@@ -70,6 +77,12 @@ class ViewControllerSpec: QuickSpec {
         }
 
         describe("ViewController") {
+
+            it ("has board buttons with tags in sequential order") {
+                for i in 0..<controller.boardButtons.count {
+                    expect(controller.boardButtons[i].tag).to(equal(i))
+                }
+            }
 
             it("marks the first pressed button with the first player's mark") {
                 let firstMoveButton = controller.boardButtons[0]
@@ -178,13 +191,27 @@ class ViewControllerSpec: QuickSpec {
                     controller.currentMode = GameMode.HumanVsComputer
 
                     controller.makeMove(controller.boardButtons[0])
-                    mockClient.triggerRequestCompletion()
 
                     expect(controller.boardButtons[1].currentTitle).toEventuallyNot(beNil())
                 }
 
-                it("disables input when computer is making a move") {
+                it("the computer does not move if the player move ends the game") {
                     let mockClient = MockHttpClient()
+                    controller.computerPlayer?.setHttpClient(mockClient)
+                    controller.currentMode = GameMode.HumanVsComputer
+                    mockClient.mockResponseBody = "3"
+                    controller.makeMove(controller.boardButtons[0])
+                    mockClient.mockResponseBody = "4"
+                    controller.makeMove(controller.boardButtons[1])
+                    mockClient.mockResponseBody = "5"
+
+                    controller.makeMove(controller.boardButtons[2])
+
+                    expect(controller.boardButtons[5].currentTitle).to(beNil())
+                }
+
+                it("disables input when computer is making a move") {
+                    let mockClient = NullHttpClient()
                     mockClient.mockResponseBody = "1"
                     controller.computerPlayer?.setHttpClient(mockClient)
                     controller.currentMode = GameMode.HumanVsComputer
@@ -202,7 +229,6 @@ class ViewControllerSpec: QuickSpec {
                     controller.currentMode = GameMode.HumanVsComputer
 
                     controller.makeMove(buttons[0])
-                    mockClient.triggerRequestCompletion()
 
                     expect(buttons[0...1]).to(allPass({ $0?.enabled == false }))
                     expect(buttons[2..<buttons.count]).to(allPass({ $0?.enabled == true }))

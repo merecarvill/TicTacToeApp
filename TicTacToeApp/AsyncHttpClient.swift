@@ -12,8 +12,10 @@ public class AsyncHttpClient: HttpClient {
 
         session.dataTaskWithRequest(request) { (data, response, error) -> Void in
             if error == nil && data != nil {
-                let reply = String(data: data!, encoding: NSUTF8StringEncoding)
-                successHandler(reply!)
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    let reply = String(data: data!, encoding: NSUTF8StringEncoding)
+                    successHandler(reply!)
+                })
             } else {
                 failureHandler()
             }

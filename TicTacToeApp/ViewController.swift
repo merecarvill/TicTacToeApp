@@ -29,7 +29,7 @@ public class ViewController: UIViewController {
         gamePrompt?.updateFor(gameState)
         resetButton.enabled = true
 
-        if isComputerTurn(gameState) {
+        if isComputerTurn(gameState) && !gameState.isOver() {
             gameBoard?.disableInput()
             computerPlayer!.makeMove(gameState)
         }
