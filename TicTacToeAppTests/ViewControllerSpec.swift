@@ -156,42 +156,6 @@ class ViewControllerSpec: QuickSpec {
                 expect(controller.boardButtons).to(allPass{ $0!.enabled == false })
             }
 
-            it("informs player X that it's their turn when the game starts") {
-                expect(controller.prompt.text).to(equal("It's player X's turn:"))
-            }
-
-            it("informs player O that it's their turn after player X makes their move") {
-                controller.makeMove(controller.boardButtons[0])
-
-                expect(controller.prompt.text).to(equal("It's player O's turn:"))
-            }
-
-            it("informs player X that it's their turn after game restart") {
-                makeMoves(controller, buttonSequence: [0, 1, 3, 4, 6])
-
-                controller.resetGame()
-
-                expect(controller.prompt.text).to(equal("It's player X's turn:"))
-            }
-
-            it("informs winning player X that they won") {
-                makeMoves(controller, buttonSequence: [0, 1, 3, 4, 6])
-
-                expect(controller.prompt.text).to(equal("Player X won!"))
-            }
-            
-            it("informs winning player O that they won") {
-                makeMoves(controller, buttonSequence: [2, 0, 1, 3, 4, 6])
-                
-                expect(controller.prompt.text).to(equal("Player O won!"))
-            }
-            
-            it("informs players of a draw") {
-                makeMoves(controller, buttonSequence: [0, 1, 3, 4, 7, 6, 2, 5, 8])
-                
-                expect(controller.prompt.text).to(equal("Players tied in a draw."))
-            }
-            
             it("starts in a human vs human game by default") {
                 expect(controller.currentMode).to(equal(GameMode.HumanVsHuman))
             }
