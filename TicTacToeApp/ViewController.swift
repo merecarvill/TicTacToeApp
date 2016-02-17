@@ -12,6 +12,7 @@ public class ViewController: UIViewController {
     private var gamePrompt: GamePrompt?
     public var currentMode = GameMode.HumanVsHuman
     public var computerPlayer: ComputerPlayer?
+    public var currentAlert: UIAlertController?
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -45,21 +46,30 @@ public class ViewController: UIViewController {
 
     private func createComputerPlayer() -> ComputerPlayer {
         let computer = ComputerPlayer(
-            onSuccess: { move in
-                self.makeMove(self.getCorrespondingButton(Int(move)!)!)
-            },
-            onFailure: {  })
+            onSuccess: { move in self.makeMove(self.getCorrespondingButton(Int(move)!)!) },
+            onFailure: { self.handleFailedComputerMove() })
         computer.setHttpClient(AsyncHttpClient())
         return computer
     }
 
-    @IBAction public func resetGameWithConfirmation() {
-        let confirmationAlert =
-        createAlert("Are you sure?", message: "Current game progress will be lost.")
-        addAction(confirmationAlert, title: "OK", action: { (_) in self.resetGame() })
-        addAction(confirmationAlert, title: "Cancel", action: { (_) in })
+    private func handleFailedComputerMove() -> Void {
+        currentAlert = createAlert("Computer move failed.",
+            message: "The computer opponent is currently unavailable.")
+        addAction(currentAlert!, title: "Reset Game", action: { (_) in self.resetGame() })
+        addAction(currentAlert!, title: "Change to Human vs. Human game", action: { (_) in
+            self.currentMode = GameMode.HumanVsHuman
+            self.gameBoard?.updateFor(self.gameState)
+        })
+        presentViewController(currentAlert!, animated: true, completion: nil)
+    }
 
-        presentViewController(confirmationAlert, animated: true, completion: nil)
+    @IBAction public func resetGameWithConfirmation() {
+        currentAlert = createAlert("Are you sure?",
+            message: "Current game progress will be lost.")
+        addAction(currentAlert!, title: "OK", action: { (_) in self.resetGame() })
+        addAction(currentAlert!, title: "Cancel", action: { (_) in })
+
+        presentViewController(currentAlert!, animated: true, completion: nil)
     }
 
     public func resetGame() {
