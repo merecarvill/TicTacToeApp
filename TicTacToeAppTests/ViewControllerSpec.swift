@@ -11,15 +11,27 @@ class ViewControllerSpec: QuickSpec {
         internal func makeRequest(
             url: String,
             successHandler: (String) -> Void,
-            failureHandler: () -> Void
-            ) {
-                lastRequestUrl = url
-                if mockResponseBody != nil {
-                    successHandler(mockResponseBody!)
-                } else {
-                    failureHandler()
-                }
+            failureHandler: () -> Void)
+        {
+            lastRequestUrl = url
+            if mockResponseBody != nil {
+                successHandler(mockResponseBody!)
+            } else {
+                failureHandler()
+            }
         }
+    }
+
+    class NullHttpClient: HttpClient {
+        internal var lastRequestUrl: String?
+        internal var mockResponseBody: String? = ""
+        internal var responseHandlers: ((String) -> Void, () -> Void)?
+
+        internal func makeRequest(
+            url: String,
+            successHandler: (String) -> Void,
+            failureHandler: () -> Void)
+        { }
     }
 
     override func setUp() {
@@ -65,6 +77,12 @@ class ViewControllerSpec: QuickSpec {
         }
 
         describe("ViewController") {
+
+            it ("has board buttons with tags in sequential order") {
+                for i in 0..<controller.boardButtons.count {
+                    expect(controller.boardButtons[i].tag).to(equal(i))
+                }
+            }
 
             it("marks the first pressed button with the first player's mark") {
                 let firstMoveButton = controller.boardButtons[0]
@@ -151,43 +169,6 @@ class ViewControllerSpec: QuickSpec {
                 expect(controller.boardButtons).to(allPass{ $0!.enabled == false })
             }
 
-            it("informs player X that it's their turn when the game starts") {
-                expect(controller.prompt.text).to(equal("It's player X's turn:"))
-            }
-
-            it("informs player O that it's their turn after player X makes their move") {
-                controller.makeMove(controller.boardButtons[0])
-
-                expect(controller.prompt.text).to(equal("It's player O's turn:"))
-            }
-
-            it("informs player X that it's their turn after game restart") {
-                makeMoves(controller, buttonSequence: [0, 1, 3, 4, 6])
-
-                controller.resetGame()
-
-                expect(controller.prompt.text).to(equal("It's player X's turn:"))
-            }
-
-            it("informs winning player X that they won") {
-                makeMoves(controller, buttonSequence: [0, 1, 3, 4, 6])
-
-                expect(controller.prompt.text).to(equal("Player X won!"))
-            }
-            
-            it("informs winning player O that they won") {
-                makeMoves(controller, buttonSequence: [2, 0, 1, 3, 4, 6])
-                
-                
-                expect(controller.prompt.text).to(equal("Player O won!"))
-            }
-            
-            it("informs players of a draw") {
-                makeMoves(controller, buttonSequence: [0, 1, 3, 4, 7, 6, 2, 5, 8])
-                
-                expect(controller.prompt.text).to(equal("Players tied in a draw."))
-            }
-            
             it("starts in a human vs human game by default") {
                 expect(controller.currentMode).to(equal(GameMode.HumanVsHuman))
             }
@@ -200,16 +181,58 @@ class ViewControllerSpec: QuickSpec {
                 
                 expect(controller.currentMode).to(equal(GameMode.HumanVsComputer))
             }
-            
-            it("makes the computer move automatically after player move") {
-                let mockClient = MockHttpClient()
-                mockClient.mockResponseBody = "1"
-                controller.computerPlayer?.setHttpClient(mockClient)
-                controller.currentMode = GameMode.HumanVsComputer
-                
-                controller.makeMove(controller.boardButtons[0])
 
-                expect(controller.boardButtons[1].currentTitle).toEventuallyNot(beNil())
+            describe("human versus computer game") {
+            
+                it("makes the computer move automatically after player move") {
+                    let mockClient = MockHttpClient()
+                    mockClient.mockResponseBody = "1"
+                    controller.computerPlayer?.setHttpClient(mockClient)
+                    controller.currentMode = GameMode.HumanVsComputer
+
+                    controller.makeMove(controller.boardButtons[0])
+
+                    expect(controller.boardButtons[1].currentTitle).toEventuallyNot(beNil())
+                }
+
+                it("the computer does not move if the player move ends the game") {
+                    let mockClient = MockHttpClient()
+                    controller.computerPlayer?.setHttpClient(mockClient)
+                    controller.currentMode = GameMode.HumanVsComputer
+                    mockClient.mockResponseBody = "3"
+                    controller.makeMove(controller.boardButtons[0])
+                    mockClient.mockResponseBody = "4"
+                    controller.makeMove(controller.boardButtons[1])
+                    mockClient.mockResponseBody = "5"
+
+                    controller.makeMove(controller.boardButtons[2])
+
+                    expect(controller.boardButtons[5].currentTitle).to(beNil())
+                }
+
+                it("disables input when computer is making a move") {
+                    let mockClient = NullHttpClient()
+                    mockClient.mockResponseBody = "1"
+                    controller.computerPlayer?.setHttpClient(mockClient)
+                    controller.currentMode = GameMode.HumanVsComputer
+
+                    controller.makeMove(controller.boardButtons[0])
+
+                    expect(controller.boardButtons).to(allPass({ $0?.enabled == false }))
+                }
+
+                it("reenables input when computer is making a move") {
+                    let buttons = controller.boardButtons
+                    let mockClient = MockHttpClient()
+                    mockClient.mockResponseBody = "1"
+                    controller.computerPlayer?.setHttpClient(mockClient)
+                    controller.currentMode = GameMode.HumanVsComputer
+
+                    controller.makeMove(buttons[0])
+
+                    expect(buttons[0...1]).to(allPass({ $0?.enabled == false }))
+                    expect(buttons[2..<buttons.count]).to(allPass({ $0?.enabled == true }))
+                }
             }
         }
     }

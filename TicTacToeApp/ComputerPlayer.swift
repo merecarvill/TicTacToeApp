@@ -1,6 +1,6 @@
 import Foundation
 
-public class NetworkComputerPlayer {
+public class ComputerPlayer {
 
     var httpClient: HttpClient?
     let onSuccess: (String) -> Void

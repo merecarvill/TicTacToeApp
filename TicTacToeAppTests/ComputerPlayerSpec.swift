@@ -2,7 +2,7 @@ import Quick
 import Nimble
 import TicTacToeApp
 
-class NetworkComputerPlayerSpec: QuickSpec {
+class ComputerPlayerSpec: QuickSpec {
 
     class MockHttpClient: HttpClient {
         internal var lastRequestUrl: String?
@@ -30,12 +30,12 @@ class NetworkComputerPlayerSpec: QuickSpec {
             }
         }
 
-        describe("NetworkComputerPlayer") {
+        describe("ComputerPlayer") {
 
             it("knows the root url from which to construct requests for the http client") {
                 let serviceUrl = "http://107.170.25.194:5000/"
                 let httpClient = MockHttpClient()
-                let computer = NetworkComputerPlayer(
+                let computer = ComputerPlayer(
                     onSuccess: { _ in },
                     onFailure: { _ in }
                 )
@@ -48,7 +48,7 @@ class NetworkComputerPlayerSpec: QuickSpec {
 
             it("makes a request to an http client with current player as a parameter") {
                 let httpClient = MockHttpClient()
-                let computer = NetworkComputerPlayer(
+                let computer = ComputerPlayer(
                     onSuccess: { _ in },
                     onFailure: { _ in }
                 )
@@ -67,7 +67,7 @@ class NetworkComputerPlayerSpec: QuickSpec {
                 makeMoves(game, moveSequence: [0, 1, 2, 3, 4, 5, 6, 7])
                 let boardString = "board=\(x),\(o),\(x),\(o),\(x),\(o),\(x),\(o),\(blank)"
                 let httpClient = MockHttpClient()
-                let computer = NetworkComputerPlayer(
+                let computer = ComputerPlayer(
                     onSuccess: { _ in },
                     onFailure: { _ in }
                 )
@@ -82,7 +82,7 @@ class NetworkComputerPlayerSpec: QuickSpec {
                 let httpClient = MockHttpClient()
                 httpClient.mockResponseBody = "body"
                 var successHandlerTarget: String?
-                let computer = NetworkComputerPlayer(
+                let computer = ComputerPlayer(
                     onSuccess: { responseData in successHandlerTarget = responseData },
                     onFailure: { _ in }
                 )
@@ -97,7 +97,7 @@ class NetworkComputerPlayerSpec: QuickSpec {
                 let httpClient = MockHttpClient()
                 httpClient.mockResponseBody = nil
                 var failureHandlerTarget = "has not been called"
-                let computer = NetworkComputerPlayer(
+                let computer = ComputerPlayer(
                     onSuccess: { _ in },
                     onFailure: { failureHandlerTarget = "was called" }
                 )
