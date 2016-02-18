@@ -6,7 +6,7 @@ class ViewControllerSpec: QuickSpec {
 
     class MockHttpClient: HttpClient {
         internal var lastRequestUrl: String?
-        internal var mockResponseBody: String? = ""
+        internal var mockResponseBody: String?
 
         internal func makeRequest(
             url: String,
@@ -23,15 +23,10 @@ class ViewControllerSpec: QuickSpec {
     }
 
     class NullHttpClient: HttpClient {
-        internal var lastRequestUrl: String?
-        internal var mockResponseBody: String? = ""
-        internal var responseHandlers: ((String) -> Void, () -> Void)?
-
         internal func makeRequest(
             url: String,
             successHandler: (String) -> Void,
-            failureHandler: () -> Void)
-        { }
+            failureHandler: () -> Void) {}
     }
 
     override func setUp() {
@@ -111,50 +106,72 @@ class ViewControllerSpec: QuickSpec {
 
             }
 
-            it("disables reset button when no moves have been made") {
-                expect(resetButton.enabled).to(beFalse())
-            }
+            describe("resetting the game") {
 
-            it("enables reset button when one or more moves have been made") {
-                makeMoves(controller, buttonSequence: [0])
+                it("warns user that game progress will be lost when game is reset") {
+                    controller.resetGameWithConfirmation()
 
-                expect(resetButton.enabled).to(beTrue())
-            }
+                    expect(controller.currentAlert?.title)
+                        .to(equal("Are you sure?"))
+                    expect(controller.currentAlert?.message)
+                        .to(equal("Current game progress will be lost."))
+                }
 
-            it("disables reset button after game reset") {
-                resetButton.enabled = true
+                it("allows user to accept or cancel when warning about game reset") {
+                    controller.resetGameWithConfirmation()
 
-                controller.resetGame()
+                    expect(controller.currentAlert?.actions.count).to(equal(2))
+                    expect(controller.currentAlert?.actions[0].title)
+                        .to(equal("OK"))
+                    expect(controller.currentAlert?.actions[1].title)
+                        .to(equal("Cancel"))
+                }
 
-                expect(resetButton.enabled).to(beFalse())
-            }
+                it("disables reset button when no moves have been made") {
+                    expect(resetButton.enabled).to(beFalse())
+                }
 
-            it("removes board button titles when the game is reset") {
-                makeMoves(controller, buttonSequence: [0, 1, 2, 3, 4, 5, 6, 7, 8])
+                it("enables reset button when one or more moves have been made") {
+                    makeMoves(controller, buttonSequence: [0])
 
-                controller.resetGame()
+                    expect(resetButton.enabled).to(beTrue())
+                }
 
-                expect(controller.boardButtons).to(allPass{ $0!.currentTitle == nil })
+                it("disables reset button after game reset") {
+                    resetButton.enabled = true
 
-            }
+                    controller.resetGame()
 
-            it("re-enables board buttons when the game is reset") {
-                makeMoves(controller, buttonSequence: [0, 1, 2, 3, 4, 5, 6, 7, 8])
+                    expect(resetButton.enabled).to(beFalse())
+                }
 
-                controller.resetGame()
+                it("removes board button titles when the game is reset") {
+                    makeMoves(controller, buttonSequence: [0, 1, 2, 3, 4, 5, 6, 7, 8])
 
-                expect(controller.boardButtons).to(allPass{ $0!.enabled })
-            }
+                    controller.resetGame()
 
-            it("the first player goes first again after the game is reset") {
-                makeMoves(controller, buttonSequence: [0])
-                let initialMark = controller.boardButtons[0].currentTitle
+                    expect(controller.boardButtons).to(allPass{ $0!.currentTitle == nil })
 
-                controller.resetGame()
-                makeMoves(controller, buttonSequence: [0])
+                }
 
-                expect(initialMark).to(equal(firstPlayerMark))
-                expect(controller.boardButtons[0].currentTitle).to(equal(initialMark))
+                it("re-enables board buttons when the game is reset") {
+                    makeMoves(controller, buttonSequence: [0, 1, 2, 3, 4, 5, 6, 7, 8])
+
+                    controller.resetGame()
+
+                    expect(controller.boardButtons).to(allPass{ $0!.enabled })
+                }
+
+                it("has the first player go first again after the game is reset") {
+                    makeMoves(controller, buttonSequence: [0])
+                    let initialMark = controller.boardButtons[0].currentTitle
+
+                    controller.resetGame()
+                    makeMoves(controller, buttonSequence: [0])
+
+                    expect(initialMark).to(equal(firstPlayerMark))
+                    expect(controller.boardButtons[0].currentTitle).to(equal(initialMark))
+                }
             }
 
             it("disables all board buttons when the game is won") {
@@ -212,7 +229,6 @@ class ViewControllerSpec: QuickSpec {
 
                 it("disables input when computer is making a move") {
                     let mockClient = NullHttpClient()
-                    mockClient.mockResponseBody = "1"
                     controller.computerPlayer?.setHttpClient(mockClient)
                     controller.currentMode = GameMode.HumanVsComputer
 
@@ -232,6 +248,37 @@ class ViewControllerSpec: QuickSpec {
 
                     expect(buttons[0...1]).to(allPass({ $0?.enabled == false }))
                     expect(buttons[2..<buttons.count]).to(allPass({ $0?.enabled == true }))
+                }
+
+                it("alerts user when app fails to receive a computer move") {
+                    let buttons = controller.boardButtons
+                    controller.computerPlayer?.setHttpClient(MockHttpClient())
+                    controller.currentMode = GameMode.HumanVsComputer
+
+                    controller.makeMove(buttons[0])
+
+                    expect(controller.currentAlert?.title)
+                        .to(equal("Computer move failed."))
+                    expect(controller.currentAlert?.message)
+                        .to(equal("The computer opponent is currently unavailable."))
+                    expect(controller.currentAlert?.actions[0].title)
+                        .to(equal("Reset Game"))
+                    expect(controller.currentAlert?.actions[1].title)
+                        .to(equal("Change to Human vs. Human game"))
+                }
+
+                it("allows user to reset game or switch to human vs human game when computer move fails") {
+                    let buttons = controller.boardButtons
+                    controller.computerPlayer?.setHttpClient(MockHttpClient())
+                    controller.currentMode = GameMode.HumanVsComputer
+
+                    controller.makeMove(buttons[0])
+
+                    expect(controller.currentAlert?.actions.count).to(equal(2))
+                    expect(controller.currentAlert?.actions[0].title)
+                        .to(equal("Reset Game"))
+                    expect(controller.currentAlert?.actions[1].title)
+                        .to(equal("Change to Human vs. Human game"))
                 }
             }
         }
